@@ -24,12 +24,12 @@ var generateRandomNumbersForArray = function (arrayLength) {
 };
 
 // Массив с похожими объявлениями
-var similarAdvertisement = [];
+var similarAdvertisements = [];
 
 // Функция для создания массива объектов - похожих объявлений неподалеку из 8 сгенерированных JS объектов.
-var generateSimilarAdvertisement = function (count) {
+var generatesimilarAdvertisements = function (count) {
   for (var i = 0; i < count; i++) {
-    similarAdvertisement.push({
+    similarAdvertisements.push({
       author: {
         avatar: 'img/avatars/user0' + Math.floor(Math.random() * (8 - 1) + 1) + '.png',
       },
@@ -55,6 +55,61 @@ var generateSimilarAdvertisement = function (count) {
 };
 
 // Создаем массив с похожими объявлениями
-generateSimilarAdvertisement(ADVERTISEMENT_COUNT);
+generatesimilarAdvertisements(ADVERTISEMENT_COUNT);
 
-console.log(similarAdvertisement);
+console.log(similarAdvertisements);
+
+// Выбираем карту объявлений и пеерключаем ее в активное состояние
+var accomodationMap = document.querySelector('.map').classList.remove('map--faded');
+
+// содержимое шаблона для добавления объявления
+var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card popup');
+
+// функция создания DOM-элемента на основе объекта c объявлением
+var rendersimilarAdvertisement = function (advertisement) {
+
+  var advertisementItem = newAdvertisement.cloneNode(true);
+  advertisementItem.querySelector('.popup__avatar').src = advertisement.autor.avatar;
+  advertisementItem.querySelector('.popup__title').textContent = advertisement.offer.title;
+  advertisementItem.querySelector('.popup__text--address').textContent = advertisement.offer.address;
+  advertisementItem.querySelector('.popup__text--price').textContent = advertisement.offer.price;
+  advertisementItem.querySelector('.popup__type').textContent = advertisement.offer.type;
+  advertisementItem.querySelector('.popup__text--capacity').textContent = advertisement.offer.rooms + 'комнаты для ' + advertisement.offer.guests + 'гостей';
+  advertisementItem.querySelector('.popup__text--time').textContent = 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout;
+  // advertisementItem.querySelector('.popup__text--price').textContent = advertisement.offer.features;
+  advertisementItem.querySelector('.popup__description').textContent = advertisement.offer.description;
+  advertisementItem.querySelector('.popup__photos').img.src = advertisement.offer.photos;
+  return advertisementItem;
+};
+
+
+// Смещение метки по X
+// var pinX = 1;
+
+// Смещение метки по Y
+// var pinY = 1;
+
+// содержимое шаблона для метки
+// var newPin = document.querySelector('#pin').content.querySelector('.map__pin');
+
+// функция создания DOM-элемента для метки
+// var renderPin = function (pin) {
+//   var pinItem = newPin.cloneNode(true);
+//   pinItem.img.style = 'left: location.x ' + pinX + ' px; top: location.y' + pinY + ' px';
+//   pinItem.img.src = similarAdvertisements.author.avatar;
+//   pinItem.img.alt = 'Заголовок объявления';
+// };
+
+// Метки объявлений
+var advertisementPins = document.querySelector('.map__pins');
+
+// заполнение блока DOM-элементами на основе массива JS-объектов
+var fragment = document.createDocumentFragment();
+
+// добавление каждого персонажа в fragment
+for (var j = 0; j < similarAdvertisements.length; j++) {
+  fragment.appendChild(rendersimilarAdvertisement(similarAdvertisements[j]));
+}
+
+// добавление содержимого fragment в блок с персонажами
+advertisementPins.appendChild(fragment);
