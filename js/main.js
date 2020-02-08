@@ -47,34 +47,36 @@ var heightPin = newPin.offsetHeight;
 var pinMinX = widthPinHalf;
 var pinMaxX = advertisementPins.offsetWidth - widthPinHalf;
 
-// Массив с похожими объявлениями
-var similarAdvertisements = [];
+var createAdvertisement = function (i) {
+  return {
+    author: {
+      avatar: 'img/avatars/user0' + (i + 1) + '.png',
+    },
+    offer: {
+      title: 'Заголовок предложения',
+      address: '600, 350',
+      price: 1000,
+      type: accomodationTypes[generateRandomNumbers(0, accomodationTypes.length)],
+      rooms: 2,
+      guests: 4,
+      checkin: checkinTimes[generateRandomNumbers(0, checkinTimes.length)],
+      checkout: checkoutTimes[generateRandomNumbers(0, checkoutTimes.length)],
+      features: accomodationFeatures[generateRandomNumbers(0, accomodationFeatures.length)],
+      description: 'Строка с описанием жилья',
+      photos: accomodationPhotos[generateRandomNumbers(0, accomodationPhotos.length)],
+    },
+    location: {
+      x: generateRandomNumbers(pinMinX, pinMaxX),
+      y: generateRandomNumbers(pinMinY, pinMaxY),
+    }
+  };
+};
 
 // Функция для создания массива объектов - похожих объявлений неподалеку из 8 сгенерированных JS объектов.
 var generateAdvertisements = function (count) {
+  var similarAdvertisements = [];
   for (var i = 0; i < count; i++) {
-    similarAdvertisements.push({
-      author: {
-        avatar: 'img/avatars/user0' + (i + 1) + '.png',
-      },
-      offer: {
-        title: 'Заголовок предложения',
-        address: '600, 350',
-        price: 1000,
-        type: accomodationTypes[generateRandomNumbers(0, accomodationTypes.length)],
-        rooms: 2,
-        guests: 4,
-        checkin: checkinTimes[generateRandomNumbers(0, checkinTimes.length)],
-        checkout: checkoutTimes[generateRandomNumbers(0, checkoutTimes.length)],
-        features: accomodationFeatures[generateRandomNumbers(0, accomodationFeatures.length)],
-        description: 'Строка с описанием жилья',
-        photos: accomodationPhotos[generateRandomNumbers(0, accomodationPhotos.length)],
-      },
-      location: {
-        x: generateRandomNumbers(pinMinX, pinMaxX),
-        y: generateRandomNumbers(pinMinY, pinMaxY),
-      }
-    });
+    similarAdvertisements.push(createAdvertisement(i));
   }
   return similarAdvertisements;
 };
@@ -85,7 +87,8 @@ var advertisements = generateAdvertisements(ADVERTISEMENT_COUNT);
 // функция создания DOM-элемента для метки
 var renderPin = function (pin) {
   var pinItem = newPin.cloneNode(true);
-  pinItem.setAttribute('style', 'left: ' + (pin.location.x - widthPinHalf) + 'px; top: ' + (pin.location.y - heightPin) + 'px');
+  pinItem.style.left = (pin.location.x - widthPinHalf) + 'px';
+  pinItem.style.top = (pin.location.y - heightPin) + 'px';
   pinItem.querySelector('img').setAttribute('src', pin.author.avatar);
   pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
   return pinItem;
