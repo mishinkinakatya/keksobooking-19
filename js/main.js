@@ -28,7 +28,8 @@ var generateRandomNumbers = function (min, max) {
 };
 
 // Выбираем карту объявлений и пеерключаем ее в активное состояние
-var accomodationMap = document.querySelector('.map').classList.remove('map--faded');
+var accomodationMap = document.querySelector('.map');
+accomodationMap.classList.remove('map--faded');
 
 // содержимое шаблона для метки
 var newPin = document.querySelector('#pin').content.querySelector('.map__pin');
