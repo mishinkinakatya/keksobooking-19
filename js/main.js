@@ -95,10 +95,8 @@ var createAdvertisement = function (i) {
       guests: 4,
       checkin: checkinTimes[generateRandomNumbers(0, checkinTimes.length)],
       checkout: checkoutTimes[generateRandomNumbers(0, checkoutTimes.length)],
-      // features: accommodationFeatures[generateRandomNumbers(0, accommodationFeatures.length)],
       features: accommodationFeatures,
       description: 'Строка с описанием жилья',
-      // photos: accommodationPhotos[generateRandomNumbers(0, accommodationPhotos.length)],
       photos: accommodationPhotos,
     },
     location: {
@@ -116,6 +114,7 @@ var generateAdvertisements = function (count) {
   }
   return similarAdvertisements;
 };
+
 // Заполняем массив похожими объявлениями
 var advertisements = generateAdvertisements(ADVERTISEMENT_COUNT);
 
@@ -124,8 +123,8 @@ var renderPin = function (pin) {
   var pinItem = newPin.cloneNode(true);
   pinItem.style.left = (pin.location.x - widthPinHalf) + 'px';
   pinItem.style.top = (pin.location.y - heightPin) + 'px';
-  fillNewAdvertisementSetAttribute(pinItem, 'img', 'src', pin.author.avatar);
-  fillNewAdvertisementSetAttribute(pinItem, 'img', 'alt', 'Заголовок объявления');
+  pinItem.querySelector('img').setAttribute('src', pin.author.avatar);
+  pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
   return pinItem;
 };
 
@@ -136,7 +135,12 @@ for (var j = 0; j < advertisements.length; j++) {
   fragment.appendChild(renderPin(advertisements[j]));
 }
 
+advertisementPins.appendChild(fragment);
+
+/*Задание 3.2 */
+
 // содержимое шаблона для добавления объявления
+
 var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card.popup');
 
 var renderAdvertisement = function (advertisement) {
@@ -148,9 +152,46 @@ var renderAdvertisement = function (advertisement) {
   fillNewAdvertisementTextContent(advertisementItem, '.popup__type', advertisement.offer.type);
   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
-  fillNewAdvertisementTextContent(advertisementItem, '.popup__features', advertisement.offer.features);
+
+  var allFeatures = advertisementItem.querySelector('.popup__features');
+  var features = advertisementItem.querySelector('.popup__feature');
+
+  var addFeatures = function (feature) {
+    var featureItem = features.cloneNode(true);
+    featureItem.classList.add('hidden');
+    if (featureItem.classList === ('.popup__feature--' + feature)) {
+      featureItem.classList.remove('hidden');
+    }
+    return featureItem;
+  };
+
+  var fragmentFeature = document.createDocumentFragment();
+
+  for (var f = 0; f < accommodationFeatures.length; f++) {
+    fragmentFeature.appendChild(addFeatures(advertisements[0].offer.features[f]))
+  }
+
+  allFeatures.appendChild(fragmentFeature);
+
   fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
-  fillNewAdvertisementSetAttribute(advertisementItem, '.popup__photos', 'src', advertisement.offer.photos);
+
+  var allPhotos = advertisementItem.querySelector('.popup__photos');
+  var photos = advertisementItem.querySelector('.popup__photo');
+
+  var addPhotos = function (photo) {
+    var photoItem = photos.cloneNode(true);
+    photoItem.setAttribute('src', photo);
+    return photoItem;
+  };
+
+  var fragmentPhoto = document.createDocumentFragment();
+
+  for (var p = 0; p < accommodationPhotos.length; p++) {
+    fragmentPhoto.appendChild(addPhotos(advertisements[0].offer.photos[p]));
+  }
+
+  allPhotos.appendChild(fragmentPhoto);
+
   return advertisementItem;
 };
 
