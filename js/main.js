@@ -17,7 +17,7 @@ var checkinTimes = ['12:00', '13:00', '14:00'];
 var checkoutTimes = ['12:00', '13:00', '14:00'];
 
 // Массив с дополнительными возможностями для жилья
-var accommodationFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var accommodationFeatures = ['wifi', 'parking', 'washer', 'elevator', 'conditioner'];
 
 // Массив с фотографиями жилья
 var accommodationPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -156,41 +156,24 @@ var renderAdvertisement = function (advertisement) {
   var allFeatures = advertisementItem.querySelector('.popup__features');
   var features = advertisementItem.querySelector('.popup__feature');
 
-  var addFeatures = function (feature) {
-    var featureItem = features.cloneNode(true);
-    featureItem.classList.add('hidden');
-    if (featureItem.classList === ('.popup__feature--' + feature)) {
-      featureItem.classList.remove('hidden');
-    }
-    return featureItem;
-  };
-
-  var fragmentFeature = document.createDocumentFragment();
-
-  for (var f = 0; f < accommodationFeatures.length; f++) {
-    fragmentFeature.appendChild(addFeatures(advertisements[0].offer.features[f]))
+  var featureItem = features.cloneNode(false);
+  featureItem.innerHTML = '';
+  for (var f = 0; f < advertisement.offer.features.length; f++) {
+    featureItem.classList = 'popup__feature popup__feature--' + advertisement.offer.features[f];
+    allFeatures.appendChild(featureItem);
   }
-
-  allFeatures.appendChild(fragmentFeature);
 
   fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
 
   var allPhotos = advertisementItem.querySelector('.popup__photos');
   var photos = advertisementItem.querySelector('.popup__photo');
 
-  var addPhotos = function (photo) {
+  photos.setAttribute('src', advertisement.offer.photos[0]);
+  for (var p = 1; p < advertisement.offer.photos.length; p++) {
     var photoItem = photos.cloneNode(true);
-    photoItem.setAttribute('src', photo);
-    return photoItem;
-  };
-
-  var fragmentPhoto = document.createDocumentFragment();
-
-  for (var p = 0; p < accommodationPhotos.length; p++) {
-    fragmentPhoto.appendChild(addPhotos(advertisements[0].offer.photos[p]));
+    allPhotos.appendChild(photoItem);
+    photoItem.setAttribute('src', advertisement.offer.photos[p]);
   }
-
-  allPhotos.appendChild(fragmentPhoto);
 
   return advertisementItem;
 };
