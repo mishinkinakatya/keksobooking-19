@@ -145,6 +145,12 @@ var newAdvertisement = document.querySelector('#card').content.querySelector('.m
 
 var renderAdvertisement = function (advertisement) {
   var advertisementItem = newAdvertisement.cloneNode(true);
+
+  var allFeatures = advertisementItem.querySelector('.popup__features');
+  var features = advertisementItem.querySelector('.popup__feature');
+  var allPhotos = advertisementItem.querySelector('.popup__photos');
+  var photos = advertisementItem.querySelector('.popup__photo');
+
   fillNewAdvertisementSetAttribute(advertisementItem, '.popup__avatar', 'src', advertisement.author.avatar);
   fillNewAdvertisementTextContent(advertisementItem, '.popup__title', advertisement.offer.title);
   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--address', advertisement.offer.address);
@@ -153,20 +159,14 @@ var renderAdvertisement = function (advertisement) {
   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
 
-  var allFeatures = advertisementItem.querySelector('.popup__features');
-  var features = advertisementItem.querySelector('.popup__feature');
-
-  var featureItem = features.cloneNode(false);
-  featureItem.innerHTML = '';
   for (var f = 0; f < advertisement.offer.features.length; f++) {
+    var featureItem = features.cloneNode(true);
+    featureItem.innerHTML = '';
     featureItem.classList = 'popup__feature popup__feature--' + advertisement.offer.features[f];
     allFeatures.appendChild(featureItem);
   }
 
   fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
-
-  var allPhotos = advertisementItem.querySelector('.popup__photos');
-  var photos = advertisementItem.querySelector('.popup__photo');
 
   photos.setAttribute('src', advertisement.offer.photos[0]);
   for (var p = 1; p < advertisement.offer.photos.length; p++) {
