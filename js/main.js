@@ -17,7 +17,7 @@ var checkinTimes = ['12:00', '13:00', '14:00'];
 var checkoutTimes = ['12:00', '13:00', '14:00'];
 
 // Массив с дополнительными возможностями для жилья
-var accommodationFeatures = ['wifi', 'parking', 'washer', 'elevator', 'conditioner'];
+var accommodationFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 // Массив с фотографиями жилья
 var accommodationPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -147,9 +147,11 @@ var renderAdvertisement = function (advertisement) {
   var advertisementItem = newAdvertisement.cloneNode(true);
 
   var allFeatures = advertisementItem.querySelector('.popup__features');
-  var features = advertisementItem.querySelector('.popup__feature');
+  var features = advertisementItem.querySelector('.popup__feature').cloneNode(true);
+  allFeatures.innerHTML = '';
   var allPhotos = advertisementItem.querySelector('.popup__photos');
-  var photos = advertisementItem.querySelector('.popup__photo');
+  var photos = advertisementItem.querySelector('.popup__photo').cloneNode(true);
+  allPhotos.innerHTML = '';
 
   fillNewAdvertisementSetAttribute(advertisementItem, '.popup__avatar', 'src', advertisement.author.avatar);
   fillNewAdvertisementTextContent(advertisementItem, '.popup__title', advertisement.offer.title);
@@ -161,18 +163,16 @@ var renderAdvertisement = function (advertisement) {
 
   for (var f = 0; f < advertisement.offer.features.length; f++) {
     var featureItem = features.cloneNode(true);
-    featureItem.innerHTML = '';
     featureItem.classList = 'popup__feature popup__feature--' + advertisement.offer.features[f];
     allFeatures.appendChild(featureItem);
   }
 
   fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
 
-  photos.setAttribute('src', advertisement.offer.photos[0]);
-  for (var p = 1; p < advertisement.offer.photos.length; p++) {
+  for (var p = 0; p < advertisement.offer.photos.length; p++) {
     var photoItem = photos.cloneNode(true);
-    allPhotos.appendChild(photoItem);
     photoItem.setAttribute('src', advertisement.offer.photos[p]);
+    allPhotos.appendChild(photoItem);
   }
 
   return advertisementItem;
