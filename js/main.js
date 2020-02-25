@@ -198,7 +198,7 @@ mainPin.addEventListener('keydown', function (evt) {
 
 // advertisementPins.appendChild(fragment);
 
-/*Задание 3.2 */
+/* Задание 3.2 */
 
 // содержимое шаблона для добавления объявления
 
