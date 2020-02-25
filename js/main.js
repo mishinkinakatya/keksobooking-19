@@ -28,85 +28,25 @@ var generateRandomNumbers = function (min, max) {
 };
 
 // функция для добавления textContent в DOM-элементе
-var fillNewAdvertisementTextContent = function (item, selector, value) {
-  if (value !== '') {
-    item.querySelector(selector).textContent = value;
-  } else {
-    item.querySelector(selector).addClassList('hidden');
-  }
-};
+// var fillNewAdvertisementTextContent = function (item, selector, value) {
+//   if (value !== '') {
+//     item.querySelector(selector).textContent = value;
+//   } else {
+//     item.querySelector(selector).addClassList('hidden');
+//   }
+// };
 
 // функция для добавления setAttribute в DOM-элементе
-var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
-  if (value !== '') {
-    item.querySelector(selector).setAttribute(attribute, value);
-  } else {
-    item.querySelector(selector).addClassList('hidden');
-  }
-};
+// var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
+//   if (value !== '') {
+//     item.querySelector(selector).setAttribute(attribute, value);
+//   } else {
+//     item.querySelector(selector).addClassList('hidden');
+//   }
+// };
 
 // Выбираем карту объявлений и пеерключаем ее в активное состояние
 var accommodationMap = document.querySelector('.map');
-
-// Задание 4.2
-var addForm = document.querySelector('.ad-form');
-var fieldsetAddForm = addForm.querySelectorAll('fieldset');
-var mapFilters = document.querySelector('.map__filters');
-var mapFiltersSelect = mapFilters.querySelectorAll('select');
-var mapFiltersFieldset = mapFilters.querySelectorAll('fieldset');
-var mainPin = accommodationMap.querySelector('.map__pin--main');
-var addressAddForm = addForm.querySelector('#address');
-var titleAddForm = addForm.querySelector('#title');
-var priceAddForm = addForm.querySelector('#price');
-var typeAddForm = addForm.querySelector('#type');
-var timeinAddForm = addForm.querySelector('#timein');
-var timeoutAddForm = addForm.querySelector('#timeout');
-var roomNumberAddForm = addForm.querySelector('#room_number');
-var capacityAddForm = addForm.querySelector('#capacity');
-// научиться вычислять указатель
-var mainPinX = mainPin.offsetWidth / 2;
-var mainPinY = mainPin.offsetHeight;
-var mainPinCenterY = mainPin.offsetHeight / 2;
-
-// Функция для переключения страницы между активным и неактивным состояниями
-var tuneDisabled = function (target, mode) {
-  for (var d = 0; d < target.length; d++) {
-    target[d].disabled = mode;
-  }
-  return target;
-};
-
-// active
-var activateForm = function () {
-  accommodationMap.classList.remove('map--faded');
-  addForm.classList.remove('ad-form--disabled');
-  tuneDisabled(fieldsetAddForm, 'false');
-  tuneDisabled(mapFiltersSelect, 'false');
-  tuneDisabled(mapFiltersFieldset, 'false');
-  addressAddForm.setAttribute('placeholder', mainPinX + ', ' + mainPinY);
-};
-
-// disabled
-var disabledForm = function () {
-  tuneDisabled(fieldsetAddForm, 'true');
-  tuneDisabled(mapFiltersSelect, 'true');
-  tuneDisabled(mapFiltersFieldset, 'true');
-  addressAddForm.setAttribute('placeholder', mainPinX + ', ' + mainPinCenterY);
-};
-
-disabledForm();
-
-mainPin.addEventListener('mousedown', function (evt) {
-  if (evt.which.toString() === '1') {
-    activateForm();
-  }
-});
-
-mainPin.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
-    activateForm();
-  }
-});
 
 // содержимое шаблона для метки
 var newPin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -194,7 +134,69 @@ for (var j = 0; j < advertisements.length; j++) {
   fragment.appendChild(renderPin(advertisements[j]));
 }
 
-advertisementPins.appendChild(fragment);
+// Задание 4.2
+var addForm = document.querySelector('.ad-form');
+var fieldsetAddForm = addForm.querySelectorAll('fieldset');
+var mapFilters = document.querySelector('.map__filters');
+var mapFiltersSelect = mapFilters.querySelectorAll('select');
+var mapFiltersFieldset = mapFilters.querySelectorAll('fieldset');
+var mainPin = accommodationMap.querySelector('.map__pin--main');
+var addressAddForm = addForm.querySelector('#address');
+var titleAddForm = addForm.querySelector('#title');
+var priceAddForm = addForm.querySelector('#price');
+var typeAddForm = addForm.querySelector('#type');
+var timeinAddForm = addForm.querySelector('#timein');
+var timeoutAddForm = addForm.querySelector('#timeout');
+var roomNumberAddForm = addForm.querySelector('#room_number');
+var capacityAddForm = addForm.querySelector('#capacity');
+// научиться вычислять указатель
+var mainPinX = mainPin.offsetWidth / 2;
+var mainPinY = mainPin.offsetHeight;
+var mainPinCenterY = mainPin.offsetHeight / 2;
+
+// Функция для переключения страницы между активным и неактивным состояниями
+var tuneDisabled = function (target, mode) {
+  for (var d = 0; d < target.length; d++) {
+    target[d].disabled = mode;
+  }
+  return target;
+};
+
+// disabled
+var disabledForm = function () {
+  tuneDisabled(fieldsetAddForm, true);
+  tuneDisabled(mapFiltersSelect, true);
+  tuneDisabled(mapFiltersFieldset, true);
+  addressAddForm.setAttribute('placeholder', mainPinX + ', ' + mainPinCenterY);
+};
+
+disabledForm();
+
+// active
+var activateForm = function () {
+  accommodationMap.classList.remove('map--faded');
+  addForm.classList.remove('ad-form--disabled');
+  tuneDisabled(fieldsetAddForm, false);
+  tuneDisabled(mapFiltersSelect, false);
+  tuneDisabled(mapFiltersFieldset, false);
+  addressAddForm.setAttribute('placeholder', mainPinX + ', ' + mainPinY);
+
+  advertisementPins.appendChild(fragment);
+};
+
+mainPin.addEventListener('mousedown', function (evt) {
+  if (evt.which.toString() === '1') {
+    activateForm();
+  }
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    activateForm();
+  }
+});
+
+// advertisementPins.appendChild(fragment);
 
 /*Задание 3.2 */
 
