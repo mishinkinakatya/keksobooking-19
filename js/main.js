@@ -247,50 +247,36 @@ mainPin.addEventListener('keydown', function (evt) {
 
 // валидация
 
-// 3.1
-titleAddForm.addEventListener('invalid', function () {
-  if (titleAddForm.validity.tooShort) {
-    titleAddForm.setCustomValidity('Заголовок объявления должен состоять минимум из 30-ти символов');
-  } else if (titleAddForm.validity.tooLong) {
-    titleAddForm.setCustomValidity('Заголовок объявления не должен превышать 100 символов');
-  } else if (titleAddForm.validity.valueMissing) {
-    titleAddForm.setCustomValidity('Обязательное поле');
-  } else {
-    titleAddForm.setCustomValidity('');
-  }
-});
-
-// 3.3
-typeAddForm.addEventListener('change', function () {
-  if (typeAddForm.value === 'bungalo') {
-    priceAddForm.setAttribute('min', '0');
-    priceAddForm.setAttribute('placeholder', '0');
-  } else if (typeAddForm.value === 'flat') {
-    priceAddForm.setAttribute('min', '1000');
-    priceAddForm.setAttribute('placeholder', '1000');
-  } else if (typeAddForm.value === 'house') {
-    priceAddForm.setAttribute('min', '5000');
-    priceAddForm.setAttribute('placeholder', '5000');
-  } else if (typeAddForm.value === 'palace') {
-    priceAddForm.setAttribute('min', '10000');
-    priceAddForm.setAttribute('placeholder', '10000');
-  }
-});
-
 // 3.2 - 3.3
-priceAddForm.addEventListener('invalid', function () {
-  if (priceAddForm.validity.badInput) {
-    priceAddForm.setCustomValidity('Значение должно быть числом');
-  } else if (priceAddForm.validity.rangeUnderflow) {
-    priceAddForm.setCustomValidity('Цена за ночь должна быть не меньше ' + priceAddForm.min);
-  } else if (priceAddForm.validity.rangeOverflow) {
-    priceAddForm.setCustomValidity('Цена за ночь не должна превышать 1000000');
-  } else if (priceAddForm.validity.valueMissing) {
-    priceAddForm.setCustomValidity('Обязательное поле');
-  } else {
-    priceAddForm.setCustomValidity('');
+var setMinPrice = function () {
+  switch (typeAddForm.value) {
+    case 'bungalo':
+      priceAddForm.setAttribute('min', '0');
+      priceAddForm.setAttribute('placeholder', '0');
+      break;
+    case 'flat':
+      priceAddForm.setAttribute('min', '1000');
+      priceAddForm.setAttribute('placeholder', '1000');
+      break;
+    case 'house':
+      priceAddForm.setAttribute('min', '5000');
+      priceAddForm.setAttribute('placeholder', '5000');
+      break;
+    case 'palace':
+      priceAddForm.setAttribute('min', '10000');
+      priceAddForm.setAttribute('placeholder', '10000');
+      break;
   }
+  return priceAddForm;
+};
+
+typeAddForm.addEventListener('change', function () {
+  setMinPrice();
 });
+priceAddForm.addEventListener('change', function () {
+  setMinPrice();
+});
+
 
 // 3.5
 timeinAddForm.addEventListener('change', function () {
@@ -307,9 +293,9 @@ addForm.addEventListener('change', function (evt) {
     roomNumberAddForm.setCustomValidity('В одной комнате может проживать только 1 человек');
   } else if (roomNumberAddForm.value === '2' && capacityAddForm.value !== '1' && capacityAddForm.value !== '2') {
     roomNumberAddForm.setCustomValidity('В двух комнатах могут проживать только 1 или 2 человека');
-  } else if (roomNumberAddForm.value === '1' && capacityAddForm.value === '0') {
+  } else if (roomNumberAddForm.value === '3' && capacityAddForm.value === '0') {
     roomNumberAddForm.setCustomValidity('В трех комнатах могут проживать только 1, 2 или 3 человека');
-  } else if (roomNumberAddForm.value === '1' && capacityAddForm.value !== '0') {
+  } else if (roomNumberAddForm.value === '100' && capacityAddForm.value !== '0') {
     roomNumberAddForm.setCustomValidity('100 комнат предназначены не для гостей');
   } else {
     roomNumberAddForm.setCustomValidity('');
