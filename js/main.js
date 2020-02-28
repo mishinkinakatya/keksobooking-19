@@ -125,14 +125,22 @@ var openModal = function (modal) {
   var currentModal = renderAdvertisement(modal);
   fragmentaccommodation.appendChild(currentModal);
   accommodationMap.insertBefore(fragmentaccommodation, document.querySelector('.map__filters-container'));
-
   mapCardPopup = accommodationMap.querySelector('.map__card');
   closeButton = mapCardPopup.querySelector('.popup__close');
 };
 
+var statusModal;
 // функция закрытия карточки
 var closeModal = function (modal) {
   accommodationMap.removeChild(modal);
+  document.removeEventListener('keydown', popupEscPressHandler);
+};
+
+var popupEscPressHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    statusModal = false;
+    closeModal(mapCardPopup);
+  }
 };
 
 // функция создания DOM-элемента для метки
@@ -147,16 +155,20 @@ var renderPin = function (pin) {
     if (activePinItem) {
       activePinItem.classList.remove('map__pin--active');
     }
-    // тут нужно поменять на replaceWith, вместо removeChild
-    if (mapCardPopup) {
+
+    if (statusModal) {
       closeModal(mapCardPopup);
     }
 
     openModal(pin);
+    statusModal = true;
     pinItem.classList.add('map__pin--active');
     activePinItem = pinItem;
 
+    document.addEventListener('keydown', popupEscPressHandler);
+
     closeButton.addEventListener('click', function () {
+      statusModal = false;
       closeModal(mapCardPopup);
     });
   };
@@ -178,7 +190,9 @@ var renderPin = function (pin) {
 var fragment = document.createDocumentFragment();
 
 for (var j = 0; j < advertisements.length; j++) {
-  fragment.appendChild(renderPin(advertisements[j]));
+  if (advertisements[j].offer) {
+    fragment.appendChild(renderPin(advertisements[j]));
+  }
 }
 
 /* Задание 3.2 */
