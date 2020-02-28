@@ -117,9 +117,25 @@ var generateAdvertisements = function (count) {
 // Заполняем массив похожими объявлениями
 var advertisements = generateAdvertisements(ADVERTISEMENT_COUNT);
 
+var mapCardPopup;
+var closeButton;
+var activePinItem;
+
+var openModal = function (modal) {
+  var currentModal = renderAdvertisement(modal);
+  fragmentaccommodation.appendChild(currentModal);
+  accommodationMap.insertBefore(fragmentaccommodation, document.querySelector('.map__filters-container'));
+
+  mapCardPopup = accommodationMap.querySelector('.map__card');
+  closeButton = mapCardPopup.querySelector('.popup__close');
+};
+
+// функция закрытия карточки
+var closeModal = function (modal) {
+  accommodationMap.removeChild(modal);
+};
 
 // функция создания DOM-элемента для метки
-var activePinItem;
 var renderPin = function (pin) {
   var pinItem = newPin.cloneNode(true);
   pinItem.style.left = (pin.location.x - widthPinHalf) + 'px';
@@ -127,50 +143,35 @@ var renderPin = function (pin) {
   pinItem.querySelector('img').setAttribute('src', pin.author.avatar);
   pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
 
-  pinItem.addEventListener('click', function () {
+  var displayModal = function () {
     if (activePinItem) {
       activePinItem.classList.remove('map__pin--active');
     }
+    // тут нужно поменять на replaceWith, вместо removeChild
+    if (mapCardPopup) {
+      closeModal(mapCardPopup);
+    }
+
     openModal(pin);
     pinItem.classList.add('map__pin--active');
     activePinItem = pinItem;
 
-    // console.log(mapCardPopup);
-    // var closeButton = mapCardPopup.querySelector('.popup__close');
-    // closeButton.addEventListener('click', function () {
-    //   closeModal(mapCardPopup);
-    // });
+    closeButton.addEventListener('click', function () {
+      closeModal(mapCardPopup);
+    });
+  };
+
+  pinItem.addEventListener('click', function () {
+    displayModal();
   });
+
   pinItem.addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
-      if (activePinItem) {
-        activePinItem.classList.remove('map__pin--active');
-      }
-      openModal(pin);
-      pinItem.classList.add('map__pin--active');
+      displayModal();
     }
   });
 
   return pinItem;
-};
-
-var mapCardPopup;
-var openModal = function (modal) {
-  if (mapCardPopup) {
-    closeModal(mapCardPopup);
-  }
-
-  var currentModal = renderAdvertisement(modal);
-  fragmentaccommodation.appendChild(currentModal);
-  accommodationMap.insertBefore(fragmentaccommodation, document.querySelector('.map__filters-container'));
-
-  mapCardPopup = accommodationMap.querySelector('.map__card');
-
-};
-
-// функция закрытия карточки
-var closeModal = function (modal) {
-  accommodationMap.removeChild(modal);
 };
 
 // заполнение блока DOM-элементами на основе массива JS-объектов
@@ -282,7 +283,6 @@ mainPin.addEventListener('keydown', function (evt) {
     activateForm();
   }
 });
-
 
 // валидация
 
