@@ -1,4 +1,5 @@
 'use strict';
+// настройка полей в форме для создания объявления
 (function () {
 
   var form = {
@@ -10,7 +11,7 @@
     capacity: window.map.adForm.querySelector('#capacity'),
   };
 
-  // 3.2 - 3.3
+  // настройка зависимости между типом жилья и его минимальной ценой
   var setMinPrice = function () {
     switch (form.type.value) {
       case 'bungalo':
@@ -40,8 +41,7 @@
     setMinPrice();
   });
 
-
-  // 3.5
+  // настройка зависимости между временем заселения и временем выселения
   form.timein.addEventListener('change', function () {
     form.timeout.value = form.timein.value;
   });
@@ -49,7 +49,7 @@
     form.timein.value = form.timeout.value;
   });
 
-  // 3.6
+  // настройка зависимости между количеством комнат и количеством гостей
   window.map.adForm.addEventListener('change', function (evt) {
     evt.preventDefault();
     if (form.roomNumber.value === '1' && form.capacity.value !== '1') {

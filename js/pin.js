@@ -1,28 +1,29 @@
 'use strict';
-
+// функция для отрисовки меток
+// координаты меток
 (function () {
-  // содержимое шаблона для метки
   var newPin = document.querySelector('#pin').content.querySelector('.map__pin');
 
-  // центр метки по вертикали
-  var pinHeight = newPin.offsetHeight;
-  // центр метки по горизонтали
-  var pinHalfWidth = newPin.offsetWidth / 2;
+  var pinSize = {
+    pinHeight: newPin.offsetHeight,
+    pinHalfWidth: newPin.offsetWidth / 2,
+  };
 
   window.pin = {
+    // координаты метки
     pinCoords: {
-      minX: pinHalfWidth,
-      maxX: window.data.mapPins.offsetWidth - pinHalfWidth,
+      minX: pinSize.pinHalfWidth,
+      maxX: window.data.mapPins.offsetWidth - pinSize.pinHalfWidth,
       minY: 130,
       maxY: 630,
     },
-    // заполнение блока DOM-элементами на основе массива JS-объектов
+    // фрагмент с меткой
     fragment: document.createDocumentFragment(),
-
+    // функция для отрисовки метки
     renderPin: function (pin) {
       var pinItem = newPin.cloneNode(true);
-      pinItem.style.left = (pin.location.x - pinHalfWidth) + 'px';
-      pinItem.style.top = (pin.location.y - pinHeight) + 'px';
+      pinItem.style.left = (pin.location.x - pinSize.pinHalfWidth) + 'px';
+      pinItem.style.top = (pin.location.y - pinSize.pinHeight) + 'px';
       pinItem.querySelector('img').setAttribute('src', pin.author.avatar);
       pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
 

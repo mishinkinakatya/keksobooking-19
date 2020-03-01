@@ -1,8 +1,27 @@
 'use strict';
+// получаем массив с объявлениями
+// функция для отрисовки модального окна
 (function () {
-  // Заполняем массив похожими объявлениями
-  // Количество объявлений
   var ADVERTISEMENT_COUNT = 8;
+  var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card.popup');
+
+  // функция для добавления textContent в DOM-элементе
+  var fillNewAdvertisementTextContent = function (item, selector, value) {
+    if (value !== '') {
+      item.querySelector(selector).textContent = value;
+    } else {
+      item.querySelector(selector).addClassList('hidden');
+    }
+  };
+
+  // функция для добавления setAttribute в DOM-элементе
+  var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
+    if (value !== '') {
+      item.querySelector(selector).setAttribute(attribute, value);
+    } else {
+      item.querySelector(selector).addClassList('hidden');
+    }
+  };
 
   var displayAccommodationType = function () {
     var type = window.data.accommodationParameters.types[window.data.generateRandomNumbers(0, window.data.accommodationParameters.types.length)];
@@ -20,6 +39,7 @@
     }
   };
 
+  // функция для создания одной карточки
   var createAdvertisement = function (i) {
     return {
       author: {
@@ -45,7 +65,7 @@
     };
   };
 
-  // Функция для создания массива объектов - похожих объявлений неподалеку из 8 сгенерированных JS объектов.
+  // Функция для создания массива объектов - объявлений.
   var generateAdvertisements = function (count) {
     var similarAdvertisements = [];
     for (var i = 0; i < count; i++) {
@@ -54,37 +74,14 @@
     return similarAdvertisements;
   };
 
-  // функция для добавления textContent в DOM-элементе
-  var fillNewAdvertisementTextContent = function (item, selector, value) {
-    if (value !== '') {
-      item.querySelector(selector).textContent = value;
-    } else {
-      item.querySelector(selector).addClassList('hidden');
-    }
-  };
-
-  // функция для добавления setAttribute в DOM-элементе
-  var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
-    if (value !== '') {
-      item.querySelector(selector).setAttribute(attribute, value);
-    } else {
-      item.querySelector(selector).addClassList('hidden');
-    }
-  };
-
-  /* Задание 3.2 */
-
-  // содержимое шаблона для добавления объявления
-
-  var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card.popup');
-
   window.card = {
+    // массив с получившимися объявлениями
     advertisements: generateAdvertisements(ADVERTISEMENT_COUNT),
+    // фрагмент с карточкой объявления
     fragmentaccommodation: document.createDocumentFragment(),
-
+    // функция для отрисовки карточки (модального окна)
     renderAdvertisement: function (advertisement) {
       var advertisementItem = newAdvertisement.cloneNode(true);
-
       var allFeatures = advertisementItem.querySelector('.popup__features');
       var features = advertisementItem.querySelector('.popup__feature').cloneNode(true);
       allFeatures.innerHTML = '';
@@ -113,7 +110,6 @@
         photoItem.setAttribute('src', advertisement.offer.photos[p]);
         allPhotos.appendChild(photoItem);
       }
-
       return advertisementItem;
     },
   };
