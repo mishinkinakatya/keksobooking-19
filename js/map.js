@@ -104,6 +104,7 @@
   // закытие карточки
   var closeModal = function (modal) {
     window.data.map.removeChild(modal);
+    activePinItem.classList.remove('map__pin--active');
     document.removeEventListener('keydown', popupEscPressHandler);
   };
 
