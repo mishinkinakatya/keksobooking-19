@@ -28,22 +28,22 @@ var generateRandomNumbers = function (min, max) {
 };
 
 // функция для добавления textContent в DOM-элементе
-// var fillNewAdvertisementTextContent = function (item, selector, value) {
-//   if (value !== '') {
-//     item.querySelector(selector).textContent = value;
-//   } else {
-//     item.querySelector(selector).addClassList('hidden');
-//   }
-// };
+var fillNewAdvertisementTextContent = function (item, selector, value) {
+  if (value !== '') {
+    item.querySelector(selector).textContent = value;
+  } else {
+    item.querySelector(selector).addClassList('hidden');
+  }
+};
 
 // функция для добавления setAttribute в DOM-элементе
-// var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
-//   if (value !== '') {
-//     item.querySelector(selector).setAttribute(attribute, value);
-//   } else {
-//     item.querySelector(selector).addClassList('hidden');
-//   }
-// };
+var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
+  if (value !== '') {
+    item.querySelector(selector).setAttribute(attribute, value);
+  } else {
+    item.querySelector(selector).addClassList('hidden');
+  }
+};
 
 // Выбираем карту объявлений и пеерключаем ее в активное состояние
 var accommodationMap = document.querySelector('.map');
@@ -117,6 +117,32 @@ var generateAdvertisements = function (count) {
 // Заполняем массив похожими объявлениями
 var advertisements = generateAdvertisements(ADVERTISEMENT_COUNT);
 
+var mapCardPopup;
+var closeButton;
+var activePinItem;
+
+var openModal = function (modal) {
+  var currentModal = renderAdvertisement(modal);
+  fragmentaccommodation.appendChild(currentModal);
+  accommodationMap.insertBefore(fragmentaccommodation, document.querySelector('.map__filters-container'));
+  mapCardPopup = accommodationMap.querySelector('.map__card');
+  closeButton = mapCardPopup.querySelector('.popup__close');
+};
+
+var statusModal;
+// функция закрытия карточки
+var closeModal = function (modal) {
+  accommodationMap.removeChild(modal);
+  document.removeEventListener('keydown', popupEscPressHandler);
+};
+
+var popupEscPressHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    statusModal = false;
+    closeModal(mapCardPopup);
+  }
+};
+
 // функция создания DOM-элемента для метки
 var renderPin = function (pin) {
   var pinItem = newPin.cloneNode(true);
@@ -124,6 +150,39 @@ var renderPin = function (pin) {
   pinItem.style.top = (pin.location.y - heightPin) + 'px';
   pinItem.querySelector('img').setAttribute('src', pin.author.avatar);
   pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
+
+  var displayModal = function () {
+    if (activePinItem) {
+      activePinItem.classList.remove('map__pin--active');
+    }
+
+    if (statusModal) {
+      closeModal(mapCardPopup);
+    }
+
+    openModal(pin);
+    statusModal = true;
+    pinItem.classList.add('map__pin--active');
+    activePinItem = pinItem;
+
+    document.addEventListener('keydown', popupEscPressHandler);
+
+    closeButton.addEventListener('click', function () {
+      statusModal = false;
+      closeModal(mapCardPopup);
+    });
+  };
+
+  pinItem.addEventListener('click', function () {
+    displayModal();
+  });
+
+  pinItem.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      displayModal();
+    }
+  });
+
   return pinItem;
 };
 
@@ -131,9 +190,53 @@ var renderPin = function (pin) {
 var fragment = document.createDocumentFragment();
 
 for (var j = 0; j < advertisements.length; j++) {
-  fragment.appendChild(renderPin(advertisements[j]));
+  if (advertisements[j].offer) {
+    fragment.appendChild(renderPin(advertisements[j]));
+  }
 }
 
+/* Задание 3.2 */
+
+// содержимое шаблона для добавления объявления
+
+var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card.popup');
+
+var renderAdvertisement = function (advertisement) {
+  var advertisementItem = newAdvertisement.cloneNode(true);
+
+  var allFeatures = advertisementItem.querySelector('.popup__features');
+  var features = advertisementItem.querySelector('.popup__feature').cloneNode(true);
+  allFeatures.innerHTML = '';
+  var allPhotos = advertisementItem.querySelector('.popup__photos');
+  var photos = advertisementItem.querySelector('.popup__photo').cloneNode(true);
+  allPhotos.innerHTML = '';
+
+  fillNewAdvertisementSetAttribute(advertisementItem, '.popup__avatar', 'src', advertisement.author.avatar);
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__title', advertisement.offer.title);
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__text--address', advertisement.offer.address);
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__text--price', advertisement.offer.price + ' ₽/ночь');
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__type', advertisement.offer.type);
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
+
+  for (var f = 0; f < advertisement.offer.features.length; f++) {
+    var featureItem = features.cloneNode(true);
+    featureItem.classList = 'popup__feature popup__feature--' + advertisement.offer.features[f];
+    allFeatures.appendChild(featureItem);
+  }
+
+  fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
+
+  for (var p = 0; p < advertisement.offer.photos.length; p++) {
+    var photoItem = photos.cloneNode(true);
+    photoItem.setAttribute('src', advertisement.offer.photos[p]);
+    allPhotos.appendChild(photoItem);
+  }
+
+  return advertisementItem;
+};
+
+var fragmentaccommodation = document.createDocumentFragment();
 // Задание 4.2
 var addForm = document.querySelector('.ad-form');
 var fieldsetAddForm = addForm.querySelectorAll('fieldset');
@@ -142,7 +245,6 @@ var mapFiltersSelect = mapFilters.querySelectorAll('select');
 var mapFiltersFieldset = mapFilters.querySelectorAll('fieldset');
 var mainPin = accommodationMap.querySelector('.map__pin--main');
 var addressAddForm = addForm.querySelector('#address');
-var titleAddForm = addForm.querySelector('#title');
 var priceAddForm = addForm.querySelector('#price');
 var typeAddForm = addForm.querySelector('#type');
 var timeinAddForm = addForm.querySelector('#timein');
@@ -195,55 +297,6 @@ mainPin.addEventListener('keydown', function (evt) {
     activateForm();
   }
 });
-
-// advertisementPins.appendChild(fragment);
-
-/* Задание 3.2 */
-
-// содержимое шаблона для добавления объявления
-
-// var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card.popup');
-
-// var renderAdvertisement = function (advertisement) {
-//   var advertisementItem = newAdvertisement.cloneNode(true);
-
-//   var allFeatures = advertisementItem.querySelector('.popup__features');
-//   var features = advertisementItem.querySelector('.popup__feature').cloneNode(true);
-//   allFeatures.innerHTML = '';
-//   var allPhotos = advertisementItem.querySelector('.popup__photos');
-//   var photos = advertisementItem.querySelector('.popup__photo').cloneNode(true);
-//   allPhotos.innerHTML = '';
-
-//   fillNewAdvertisementSetAttribute(advertisementItem, '.popup__avatar', 'src', advertisement.author.avatar);
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__title', advertisement.offer.title);
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--address', advertisement.offer.address);
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--price', advertisement.offer.price + ' ₽/ночь');
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__type', advertisement.offer.type);
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
-
-//   for (var f = 0; f < advertisement.offer.features.length; f++) {
-//     var featureItem = features.cloneNode(true);
-//     featureItem.classList = 'popup__feature popup__feature--' + advertisement.offer.features[f];
-//     allFeatures.appendChild(featureItem);
-//   }
-
-//   fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
-
-//   for (var p = 0; p < advertisement.offer.photos.length; p++) {
-//     var photoItem = photos.cloneNode(true);
-//     photoItem.setAttribute('src', advertisement.offer.photos[p]);
-//     allPhotos.appendChild(photoItem);
-//   }
-
-//   return advertisementItem;
-// };
-
-// var fragmentaccommodation = document.createDocumentFragment();
-
-// fragmentaccommodation.appendChild(renderAdvertisement(advertisements[0]));
-
-// accommodationMap.insertBefore(fragmentaccommodation, document.querySelector('.map__filters-container'));
 
 // валидация
 
