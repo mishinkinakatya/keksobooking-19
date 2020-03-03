@@ -8,28 +8,6 @@
   var activePinItem;
   var statusModal;
 
-  // открытие модального окна с объявлением
-  window.map = {
-    adForm: document.querySelector('.ad-form'),
-    displayModal: function (modal, item) {
-      if (activePinItem) {
-        activePinItem.classList.remove('map__pin--active');
-      }
-      if (statusModal) {
-        closeModal(mapCardPopup);
-      }
-      openModal(modal);
-      statusModal = true;
-      item.classList.add('map__pin--active');
-      activePinItem = item;
-      document.addEventListener('keydown', popupEscPressHandler);
-      closeButton.addEventListener('click', function () {
-        statusModal = false;
-        closeModal(mapCardPopup);
-      });
-    },
-  };
-
   // отрисовка метки
   for (var j = 0; j < window.card.advertisements.length; j++) {
     if (window.card.advertisements[j].offer) {
@@ -59,5 +37,27 @@
       statusModal = false;
       closeModal(mapCardPopup);
     }
+  };
+
+  // открытие модального окна с объявлением
+  window.map = {
+    adForm: document.querySelector('.ad-form'),
+    displayModal: function (modal, item) {
+      if (activePinItem) {
+        activePinItem.classList.remove('map__pin--active');
+      }
+      if (statusModal) {
+        closeModal(mapCardPopup);
+      }
+      openModal(modal);
+      statusModal = true;
+      item.classList.add('map__pin--active');
+      activePinItem = item;
+      document.addEventListener('keydown', popupEscPressHandler);
+      closeButton.addEventListener('click', function () {
+        statusModal = false;
+        closeModal(mapCardPopup);
+      });
+    },
   };
 })();

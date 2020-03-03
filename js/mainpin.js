@@ -1,69 +1,79 @@
 'use strict';
 (function () {
+  var MAP_SIZE = {
+    MIN_X: -32,
+    MAX_X: 1168,
+    MIN_Y: 130,
+    MAX_Y: 630,
+  };
 
-  window.mode.mainPin.addEventListener('mousedown', function (evt) {
+  var limitMove = function (x, min, max) {
+    if (x < min) {
+      x = min;
+    } else if (x > max) {
+      x = max;
+    } else {
+      x = x;
+    }
+    return x;
+  };
+
+  var calculatePinCoords = function (shift) {
+    var mainPinCoords = {
+      x: limitMove(window.data.mainPin.offsetLeft - shift.x, MAP_SIZE.MIN_X, MAP_SIZE.MAX_X),
+      y: limitMove(window.data.mainPin.offsetTop - shift.y, MAP_SIZE.MIN_Y, MAP_SIZE.MAX_Y),
+    };
+
+    window.data.mainPin.style.left = mainPinCoords.x + 'px';
+    window.data.mainPin.style.top = mainPinCoords.y + 'px';
+    window.mode.showAddress();
+  };
+
+  window.data.mainPin.addEventListener('mousedown', function (evt) {
     if (evt.which.toString() === '1') {
       window.mode.activateForm();
     }
   });
 
-  window.mode.mainPin.addEventListener('keydown', function (evt) {
+  window.data.mainPin.addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       window.mode.activateForm();
     }
   });
 
-  // window.util.setupWindow.dialog.addEventListener('mousedown', function (evt) {
-  //   evt.preventDefault();
-  //   var startCoords = {
-  //     x: evt.clientX,
-  //     y: evt.clientY
-  //   };
+  window.data.mainPin.addEventListener('mousedown', function (evt) {
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
 
-  //   var dragged = false;
+    var mouseMoveHandler = function (moveEvt) {
 
-  //   var mouseMoveHandler = function (moveEvt) {
-  //     moveEvt.preventDefault();
-  //     dragged = true;
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
 
-  //     var shift = {
-  //       x: startCoords.x - moveEvt.clientX,
-  //       y: startCoords.y - moveEvt.clientY
-  //     };
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+      calculatePinCoords(shift);
+    };
 
-  //     startCoords = {
-  //       x: moveEvt.clientX,
-  //       y: moveEvt.clientY
-  //     };
+    var mouseUpHandler = function () {
+      var shift = {
+        x: 0,
+        y: 0,
+      };
+      calculatePinCoords(shift);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
 
-  //     window.util.setupWindow.setup.style.top = (window.util.setupWindow.setup.offsetTop - shift.y) + 'px';
-  //     window.util.setupWindow.setup.style.left = (window.util.setupWindow.setup.offsetLeft - shift.x) + 'px';
-  //   };
+    };
 
-  //   var mouseUpHandler = function (upEvt) {
-  //     upEvt.preventDefault();
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
 
-  //     document.removeEventListener('mousemove', mouseMoveHandler);
-  //     document.removeEventListener('mouseup', mouseUpHandler);
-
-  //     if (dragged) {
-  //       var сlickPreventDefaultHandler = function (clickEvt) {
-  //         clickEvt.preventDefault();
-  //         window.util.setupWindow.dialog.removeEventListener('click', сlickPreventDefaultHandler);
-  //       };
-  //       window.util.setupWindow.dialog.addEventListener('click', сlickPreventDefaultHandler);
-  //     }
-  //   };
-
-  //   document.addEventListener('mousemove', mouseMoveHandler);
-  //   document.addEventListener('mouseup', mouseUpHandler);
-
-  //   var closeDialogHandler = function () {
-  //     window.util.setupWindow.setup.style.top = null;
-  //     window.util.setupWindow.setup.style.left = null;
-  //   };
-
-  //   window.util.setupWindow.setupClose.addEventListener('click', closeDialogHandler);
-  //   window.util.setupWindow.setupSubmit.addEventListener('click', closeDialogHandler);
-  // });
+  });
 })();
