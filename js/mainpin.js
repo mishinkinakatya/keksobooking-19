@@ -16,10 +16,10 @@
     return x;
   };
 
-  var calculatePinCoords = function (evnt, shift) {
+  var calculatePinCoords = function (xCoord, yCoord) {
     var mainPinCoords = {
-      x: limitMove(evnt.pageX - shift.x, MAP_SIZE.MIN_X, MAP_SIZE.MAX_X),
-      y: limitMove(evnt.pageY - shift.y, MAP_SIZE.MIN_Y, MAP_SIZE.MAX_Y),
+      x: limitMove(xCoord, MAP_SIZE.MIN_X, MAP_SIZE.MAX_X),
+      y: limitMove(yCoord, MAP_SIZE.MIN_Y, MAP_SIZE.MAX_Y),
     };
 
     window.data.mainPin.style.left = mainPinCoords.x + 'px';
@@ -33,15 +33,19 @@
     }
   });
 
+  var xCoord;
+  var yCoord;
   window.data.mainPin.addEventListener('mousedown', function (evt) {
-    if (!window.data.activeModeMap) {
-      if (evt.which.toString() === '1') {
-        window.mode.activateForm();
-      }
+    if (!window.data.activeModeMap && evt.which.toString() === '1') {
+      window.mode.activateForm();
+
+      xCoord = parseInt(window.data.mainPin.style.left, 10);
+      yCoord = parseInt(window.data.mainPin.style.top, 10);
+
     } else {
       var startCoords = {
-        x: evt.clientX - window.data.mainPin.getBoundingClientRect().left,
-        y: evt.clientY - window.data.mainPin.getBoundingClientRect().top,
+        x: evt.clientX,
+        y: evt.clientY,
       };
 
       var mouseMoveHandler = function (moveEvt) {
@@ -53,17 +57,15 @@
 
         startCoords = {
           x: moveEvt.clientX,
-          y: moveEvt.clientY,
+          y: moveEvt.clientY
         };
-        calculatePinCoords(moveEvt, shift);
+        xCoord = xCoord - shift.x;
+        yCoord = yCoord - shift.y;
+        calculatePinCoords(xCoord, yCoord);
       };
 
-      var mouseUpHandler = function (upEvt) {
-        var shift = {
-          x: 0,
-          y: 0,
-        };
-        calculatePinCoords(upEvt, shift);
+      var mouseUpHandler = function () {
+        calculatePinCoords(xCoord, yCoord);
         document.removeEventListener('mousemove', mouseMoveHandler);
         document.removeEventListener('mouseup', mouseUpHandler);
 
@@ -71,6 +73,7 @@
 
       document.addEventListener('mousemove', mouseMoveHandler);
       document.addEventListener('mouseup', mouseUpHandler);
+
     }
   });
 })();
