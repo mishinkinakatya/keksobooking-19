@@ -12,16 +12,14 @@
       x = min;
     } else if (x > max) {
       x = max;
-    } else {
-      x = x;
     }
     return x;
   };
 
-  var calculatePinCoords = function (shift) {
+  var calculatePinCoords = function (evnt, shift) {
     var mainPinCoords = {
-      x: limitMove(window.data.mainPin.offsetLeft - shift.x, MAP_SIZE.MIN_X, MAP_SIZE.MAX_X),
-      y: limitMove(window.data.mainPin.offsetTop - shift.y, MAP_SIZE.MIN_Y, MAP_SIZE.MAX_Y),
+      x: limitMove(evnt.pageX - shift.x, MAP_SIZE.MIN_X, MAP_SIZE.MAX_X),
+      y: limitMove(evnt.pageY - shift.y, MAP_SIZE.MIN_Y, MAP_SIZE.MAX_Y),
     };
 
     window.data.mainPin.style.left = mainPinCoords.x + 'px';
@@ -42,8 +40,8 @@
       }
     } else {
       var startCoords = {
-        x: evt.clientX,
-        y: evt.clientY
+        x: evt.clientX - window.data.mainPin.getBoundingClientRect().left,
+        y: evt.clientY - window.data.mainPin.getBoundingClientRect().top,
       };
 
       var mouseMoveHandler = function (moveEvt) {
@@ -55,17 +53,17 @@
 
         startCoords = {
           x: moveEvt.clientX,
-          y: moveEvt.clientY
+          y: moveEvt.clientY,
         };
-        calculatePinCoords(shift);
+        calculatePinCoords(moveEvt, shift);
       };
 
-      var mouseUpHandler = function () {
+      var mouseUpHandler = function (upEvt) {
         var shift = {
           x: 0,
           y: 0,
         };
-        calculatePinCoords(shift);
+        calculatePinCoords(upEvt, shift);
         document.removeEventListener('mousemove', mouseMoveHandler);
         document.removeEventListener('mouseup', mouseUpHandler);
 
