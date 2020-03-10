@@ -8,12 +8,29 @@
   var activePinItem;
   var statusModal;
 
-  // отрисовка метки
-  for (var j = 0; j < window.card.advertisements.length; j++) {
-    if (window.card.advertisements[j].offer) {
-      window.pin.fragment.appendChild(window.pin.renderPin(window.card.advertisements[j]));
+  // функция, которая срабатывает при возникновении ошибок
+  var errorHandler = function (message) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  // функция, которая срабатывает при загрузке данных с сервера
+  var loadHandler = function (advertisements) {
+
+    for (var j = 0; j < advertisements.length; j++) {
+      if (advertisements[j].offer) {
+        window.pin.fragment.appendChild(window.pin.renderPin((advertisements[j])));
+      }
     }
-  }
+  };
+
+  window.backend.load(loadHandler, errorHandler);
 
   // открытие карточки
   var openModal = function (modal) {
