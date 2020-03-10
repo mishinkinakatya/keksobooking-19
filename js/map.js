@@ -8,16 +8,6 @@
   var activePinItem;
   var statusModal;
 
-  // функция, которая срабатывает при загрузке данных с сервера
-  var loadHandler = function (advertisements) {
-
-    for (var j = 0; j < advertisements.length; j++) {
-      if (advertisements[j].offer) {
-        window.pin.fragment.appendChild(window.pin.renderPin((advertisements[j])));
-      }
-    }
-  };
-
   // открытие карточки
   var openModal = function (modal) {
     var currentModal = window.card.renderAdvertisement(modal);
@@ -44,7 +34,7 @@
 
   // открытие модального окна с объявлением
   window.map = {
-    adForm: document.querySelector('.ad-form'),
+    // adForm: document.querySelector('.ad-form'),
     displayModal: function (modal, item) {
       if (activePinItem) {
         activePinItem.classList.remove('map__pin--active');
@@ -62,17 +52,5 @@
         closeModal(mapCardPopup);
       });
     },
-    errorHandler: function (message) {
-      var node = document.createElement('div');
-      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-      node.style.position = 'absolute';
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = '30px';
-      node.textContent = message;
-      document.body.insertAdjacentElement('afterbegin', node);
-    },
   };
-
-  window.backend.load(loadHandler, window.map.errorHandler);
 })();
