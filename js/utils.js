@@ -47,7 +47,7 @@
   // функция, которая срабатывает при успешной отправке формы
   var sendHandler = function () {
     renderResult(successWindow);
-    window.mode.disabledForm();
+    resetForm();
     form.submitButton.textContent = 'Сохранить';
   };
 
@@ -77,12 +77,20 @@
   });
 
   // функция для сброса настроек
-  var resetSettings = function () {
+  var resetForm = function () {
+    window.data.map.classList.add('map--faded');
+    window.data.adForm.classList.add('ad-form--disabled');
     window.mode.disabledForm();
+    window.data.mainPin.style.left = window.data.MAIN_PIN_START.X + 'px';
+    window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y - window.data.MAIN_PIN_SIZE.POINTER_HEIGHT + 'px';
+    window.mode.showAddress();
+    // все заполненные поля возвращаются в изначальное состояние, в том числе фильтры;
+    // метки похожих объявлений и карточка активного объявления удаляются;
+    // window.data.mapPins.removeChild();
   };
 
   form.resetButton.addEventListener('click', function () {
-    resetSettings();
+    resetForm();
   });
 
   document.addEventListener('keydown', successEscPressHandler);
