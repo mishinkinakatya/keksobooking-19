@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  // var URL_FORM = 'https://js.dump.academy/keksobooking';
+  var URL_FORM = 'https://js.dump.academy/keksobooking';
   var URL_DATA = 'https://js.dump.academy/keksobooking/data';
   var TIMEOUT_IN_MS = 10000;
   var StatusCode = {
@@ -36,11 +36,11 @@
 
     },
 
-    // save: function (data, onLoad, onError) {
-    //   var xhr = new XMLHttpRequest();
-    //   makeRequest(onLoad, onError, xhr);
-    //   xhr.open('POST', URL_FORM);
-    //   xhr.send(data);
-    // },
+    save: function (data, onLoad, onError) {
+      var xhr = new XMLHttpRequest();
+      makeRequest(onLoad, onError, xhr);
+      xhr.open('POST', URL_FORM);
+      xhr.send(data);
+    },
   };
 })();

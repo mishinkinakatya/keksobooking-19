@@ -8,18 +8,6 @@
   var activePinItem;
   var statusModal;
 
-  // функция, которая срабатывает при возникновении ошибок
-  var errorHandler = function (message) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-    node.textContent = message;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-
   // функция, которая срабатывает при загрузке данных с сервера
   var loadHandler = function (advertisements) {
 
@@ -29,8 +17,6 @@
       }
     }
   };
-
-  window.backend.load(loadHandler, errorHandler);
 
   // открытие карточки
   var openModal = function (modal) {
@@ -76,5 +62,17 @@
         closeModal(mapCardPopup);
       });
     },
+    errorHandler: function (message) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+      node.style.position = 'absolute';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.style.fontSize = '30px';
+      node.textContent = message;
+      document.body.insertAdjacentElement('afterbegin', node);
+    },
   };
+
+  window.backend.load(loadHandler, window.map.errorHandler);
 })();

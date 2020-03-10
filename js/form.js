@@ -1,7 +1,6 @@
 'use strict';
 // настройка полей в форме для создания объявления
 (function () {
-
   var form = {
     price: window.map.adForm.querySelector('#price'),
     type: window.map.adForm.querySelector('#type'),
@@ -9,6 +8,7 @@
     timeout: window.map.adForm.querySelector('#timeout'),
     roomNumber: window.map.adForm.querySelector('#room_number'),
     capacity: window.map.adForm.querySelector('#capacity'),
+    submitButton: window.map.adForm.querySelector('.ad-form__submit'),
   };
 
   // настройка зависимости между типом жилья и его минимальной ценой
@@ -63,5 +63,18 @@
     } else {
       form.roomNumber.setCustomValidity('');
     }
+  });
+
+  // функция, которая срабатывает при успешной отправке формы
+  var sendHandler = function () {
+    // window.mode.disabledForm();
+    form.submitButton.textContent = 'Сохранить';
+  };
+
+  // обработчик событий на кнопку Отправить
+  window.map.adForm.addEventListener('submit', function (evt) {
+    form.submitButton.textContent = 'Данные отправляются...';
+    window.backend.save(new FormData(window.map.adForm), sendHandler, window.map.errorHandler);
+    evt.preventDefault();
   });
 })();
