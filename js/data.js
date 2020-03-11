@@ -6,6 +6,7 @@
     mainPin: document.querySelector('.map__pin--main'),
     main: document.querySelector('main'),
     adForm: document.querySelector('.ad-form'),
+    mapFilters: document.querySelector('.map__filters'),
 
     MAIN_PIN_SIZE: {
       WIDTH: 65,

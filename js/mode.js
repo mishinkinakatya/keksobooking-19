@@ -2,9 +2,8 @@
 (function () {
 
   var fieldsetadForm = window.data.adForm.querySelectorAll('fieldset');
-  var mapFilters = window.data.map.querySelector('.map__filters');
-  var mapFiltersSelect = mapFilters.querySelectorAll('select');
-  var mapFiltersFieldset = mapFilters.querySelectorAll('fieldset');
+  var mapFiltersSelect = window.data.mapFilters.querySelectorAll('select');
+  var mapFiltersFieldset = window.data.mapFilters.querySelectorAll('fieldset');
   var address = window.data.adForm.querySelector('#address');
 
   // Функция для переключения страницы между активным и неактивным состояниями

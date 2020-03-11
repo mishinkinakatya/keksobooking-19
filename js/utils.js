@@ -96,9 +96,11 @@
     window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y + 'px';
     window.mode.showAddress();
     deletePins();
-    // все заполненные поля возвращаются в изначальное состояние, в том числе фильтры;
+    window.data.activeModeMap = false;
+    window.data.adForm.reset();
+    window.data.mapFilters.reset();
     // карточка активного объявления удаляется;
-    // window.data.mapPins.removeChild();
+    // метки заново подгружаются;
   };
 
   form.resetButton.addEventListener('click', function () {
