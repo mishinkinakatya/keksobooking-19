@@ -22,8 +22,7 @@
     }
   };
 
-  var displayAccommodationType = function () {
-    var type = window.data.accommodationParameters.types[window.data.generateRandomNumbers(0, window.data.accommodationParameters.types.length)];
+  var displayAccommodationType = function (type) {
     switch (type) {
       case 'palace':
         return 'Дворец';
