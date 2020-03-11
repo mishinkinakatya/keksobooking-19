@@ -6,6 +6,8 @@
     resetButton: window.data.adForm.querySelector('.ad-form__reset'),
   };
 
+  var mapCardPopup = window.data.map.querySelector('.map__card.popup');
+
   var successWindow = document.querySelector('#success').content.querySelector('.success');
   var errorWindow = document.querySelector('#error').content.querySelector('.error');
   var errorButton = errorWindow.querySelector('.error__button');
@@ -44,18 +46,6 @@
     // document.removeEventListener('click', errorClickHandler);
   };
 
-  // функция, которая срабатывает при успешной отправке формы
-  var sendHandler = function () {
-    renderResult(successWindow);
-    resetForm();
-    form.submitButton.textContent = 'Сохранить';
-  };
-
-  // функция, которая срабатывает при ошибке при отправке формы
-  var errorHandler = function () {
-    renderResult(errorWindow);
-  };
-
   var getPins = function (advertisements) {
     for (var j = 0; j < advertisements.length; j++) {
       if (advertisements[j].offer) {
@@ -71,10 +61,24 @@
     }
   };
 
+  // функция, которая срабатывает при успешной отправке формы
+  var sendHandler = function () {
+    renderResult(successWindow);
+    resetForm();
+    form.submitButton.textContent = 'Сохранить';
+  };
+
+  // функция, которая срабатывает при ошибке при отправке формы
+  var errorHandler = function () {
+    renderResult(errorWindow);
+  };
+
   // функция, которая срабатывает при загрузке данных с сервера
   var loadHandler = function (pins) {
     getPins(pins);
   };
+
+  window.backend.load(loadHandler, errorHandler);
 
   // обработчик событий на кнопку Отправить
   window.data.adForm.addEventListener('submit', function (evt) {
@@ -96,10 +100,12 @@
     window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y + 'px';
     window.mode.showAddress();
     deletePins();
+    if (mapCardPopup) {
+      window.map.closeModal();
+    }
     window.data.activeModeMap = false;
     window.data.adForm.reset();
     window.data.mapFilters.reset();
-    // карточка активного объявления удаляется;
     // метки заново подгружаются;
   };
 
@@ -112,5 +118,4 @@
   // document.addEventListener('click', successClickHandler);
   // document.addEventListener('click', errorClickHandler);
 
-  window.backend.load(loadHandler, errorHandler);
 })();

@@ -19,8 +19,8 @@
 
   // открытие модального окна с объявлением
   window.map = {
-    closeModal: function (modal) {
-      window.data.map.removeChild(modal);
+    closeModal: function () {
+      window.data.map.removeChild(mapCardPopup);
       activePinItem.classList.remove('map__pin--active');
       document.removeEventListener('keydown', popupEscPressHandler);
     },
@@ -29,7 +29,7 @@
         activePinItem.classList.remove('map__pin--active');
       }
       if (statusModal) {
-        window.map.closeModal(mapCardPopup);
+        window.map.closeModal();
       }
       openModal(modal);
       statusModal = true;
@@ -38,7 +38,7 @@
       document.addEventListener('keydown', popupEscPressHandler);
       closeButton.addEventListener('click', function () {
         statusModal = false;
-        window.map.closeModal(mapCardPopup);
+        window.map.closeModal();
       });
     },
   };
