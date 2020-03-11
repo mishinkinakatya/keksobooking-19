@@ -56,13 +56,24 @@
     renderResult(errorWindow);
   };
 
-  // функция, которая срабатывает при загрузке данных с сервера
-  var loadHandler = function (advertisements) {
+  var getPins = function (advertisements) {
     for (var j = 0; j < advertisements.length; j++) {
       if (advertisements[j].offer) {
         window.pin.fragment.appendChild(window.pin.renderPin((advertisements[j])));
       }
     }
+  };
+
+  var deletePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var i = 0; i < pins.length; i++) {
+      window.data.mapPins.removeChild(pins[i]);
+    }
+  };
+
+  // функция, которая срабатывает при загрузке данных с сервера
+  var loadHandler = function (pins) {
+    getPins(pins);
   };
 
   // обработчик событий на кнопку Отправить
@@ -82,10 +93,11 @@
     window.data.adForm.classList.add('ad-form--disabled');
     window.mode.disabledForm();
     window.data.mainPin.style.left = window.data.MAIN_PIN_START.X + 'px';
-    window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y - window.data.MAIN_PIN_SIZE.POINTER_HEIGHT + 'px';
+    window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y + 'px';
     window.mode.showAddress();
+    deletePins();
     // все заполненные поля возвращаются в изначальное состояние, в том числе фильтры;
-    // метки похожих объявлений и карточка активного объявления удаляются;
+    // карточка активного объявления удаляется;
     // window.data.mapPins.removeChild();
   };
 

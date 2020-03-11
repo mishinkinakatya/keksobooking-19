@@ -17,30 +17,19 @@
     closeButton = mapCardPopup.querySelector('.popup__close');
   };
 
-  // закытие карточки
-  var closeModal = function (modal) {
-    window.data.map.removeChild(modal);
-    activePinItem.classList.remove('map__pin--active');
-    document.removeEventListener('keydown', popupEscPressHandler);
-  };
-
-  // обработчик на клавишу Esc
-  var popupEscPressHandler = function (evt) {
-    if (evt.key === 'Escape') {
-      statusModal = false;
-      closeModal(mapCardPopup);
-    }
-  };
-
   // открытие модального окна с объявлением
   window.map = {
-    // adForm: document.querySelector('.ad-form'),
+    closeModal: function (modal) {
+      window.data.map.removeChild(modal);
+      activePinItem.classList.remove('map__pin--active');
+      document.removeEventListener('keydown', popupEscPressHandler);
+    },
     displayModal: function (modal, item) {
       if (activePinItem) {
         activePinItem.classList.remove('map__pin--active');
       }
       if (statusModal) {
-        closeModal(mapCardPopup);
+        window.map.closeModal(mapCardPopup);
       }
       openModal(modal);
       statusModal = true;
@@ -49,8 +38,16 @@
       document.addEventListener('keydown', popupEscPressHandler);
       closeButton.addEventListener('click', function () {
         statusModal = false;
-        closeModal(mapCardPopup);
+        window.map.closeModal(mapCardPopup);
       });
     },
+  };
+
+  // обработчик на клавишу Esc
+  var popupEscPressHandler = function (evt) {
+    if (evt.key === 'Escape') {
+      statusModal = false;
+      window.map.closeModal(mapCardPopup);
+    }
   };
 })();
