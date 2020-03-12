@@ -9,7 +9,7 @@
     if (value !== '') {
       item.querySelector(selector).textContent = value;
     } else {
-      item.querySelector(selector).addClassList('hidden');
+      item.querySelector(selector).classList.add('hidden');
     }
   };
 
@@ -18,7 +18,7 @@
     if (value !== '') {
       item.querySelector(selector).setAttribute(attribute, value);
     } else {
-      item.querySelector(selector).addClassList('hidden');
+      item.querySelector(selector).classList.add('hidden');
     }
   };
 

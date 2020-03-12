@@ -20,8 +20,12 @@
   // открытие модального окна с объявлением
   window.map = {
     closeModal: function () {
-      window.data.map.removeChild(mapCardPopup);
-      activePinItem.classList.remove('map__pin--active');
+      if (mapCardPopup) {
+        window.data.map.removeChild(mapCardPopup);
+      }
+      if (activePinItem) {
+        activePinItem.classList.remove('map__pin--active');
+      }
       document.removeEventListener('keydown', popupEscPressHandler);
     },
     displayModal: function (modal, item) {

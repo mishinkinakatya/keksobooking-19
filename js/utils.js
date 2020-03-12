@@ -6,8 +6,6 @@
     resetButton: window.data.adForm.querySelector('.ad-form__reset'),
   };
 
-  var mapCardPopup = window.data.map.querySelector('.map__card.popup');
-
   var successWindow = document.querySelector('#success').content.querySelector('.success');
   var errorWindow = document.querySelector('#error').content.querySelector('.error');
   var errorButton = errorWindow.querySelector('.error__button');
@@ -24,13 +22,13 @@
     }
   };
 
-  // var successClickHandler = function () {
-  //   closeResult(successWindow);
-  // };
+  var successClickHandler = function () {
+    closeResult(successWindow);
+  };
 
-  // var errorClickHandler = function () {
-  //   closeResult(errorWindow);
-  // };
+  var errorClickHandler = function () {
+    closeResult(errorWindow);
+  };
 
   var renderResult = function (resultWindow) {
     var fragment = document.createDocumentFragment();
@@ -42,8 +40,8 @@
     window.data.main.removeChild(result);
     document.removeEventListener('keydown', successEscPressHandler);
     document.removeEventListener('keydown', errorEscPressHandler);
-    // document.removeEventListener('click', successClickHandler);
-    // document.removeEventListener('click', errorClickHandler);
+    successWindow.removeEventListener('click', successClickHandler);
+    successWindow.removeEventListener('click', errorClickHandler);
   };
 
   var getPins = function (advertisements) {
@@ -66,6 +64,7 @@
     renderResult(successWindow);
     resetForm();
     form.submitButton.textContent = 'Сохранить';
+    window.backend.load(loadHandler, errorHandler);
   };
 
   // функция, которая срабатывает при ошибке при отправке формы
@@ -100,22 +99,20 @@
     window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y + 'px';
     window.mode.showAddress();
     deletePins();
-    if (mapCardPopup) {
-      window.map.closeModal();
-    }
+    window.map.closeModal();
     window.data.activeModeMap = false;
     window.data.adForm.reset();
     window.data.mapFilters.reset();
-    // метки заново подгружаются;
   };
 
   form.resetButton.addEventListener('click', function () {
     resetForm();
+    window.backend.load(loadHandler, errorHandler);
   });
 
   document.addEventListener('keydown', successEscPressHandler);
   document.addEventListener('keydown', errorEscPressHandler);
-  // document.addEventListener('click', successClickHandler);
-  // document.addEventListener('click', errorClickHandler);
+  successWindow.addEventListener('click', successClickHandler);
+  successWindow.addEventListener('click', errorClickHandler);
 
 })();
