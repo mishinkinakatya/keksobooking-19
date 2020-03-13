@@ -71,6 +71,8 @@
   var errorHandler = function () {
     renderResult(errorWindow);
     form.submitButton.textContent = 'Опубликовать';
+    document.addEventListener('keydown', errorEscPressHandler);
+    errorWindow.addEventListener('click', errorClickHandler);
   };
 
   // функция, которая срабатывает при загрузке данных с сервера
@@ -107,10 +109,7 @@
     window.mode.showAddress();
 
     document.addEventListener('keydown', successEscPressHandler);
-    document.addEventListener('keydown', errorEscPressHandler);
     successWindow.addEventListener('click', successClickHandler);
-    errorWindow.addEventListener('click', errorClickHandler);
-
   };
 
   form.resetButton.addEventListener('click', function () {
