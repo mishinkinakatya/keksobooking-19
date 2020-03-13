@@ -104,6 +104,13 @@
     window.data.activeModeMap = false;
     window.data.adForm.reset();
     window.data.mapFilters.reset();
+    window.mode.showAddress();
+
+    document.addEventListener('keydown', successEscPressHandler);
+    document.addEventListener('keydown', errorEscPressHandler);
+    successWindow.addEventListener('click', successClickHandler);
+    errorWindow.addEventListener('click', errorClickHandler);
+
   };
 
   form.resetButton.addEventListener('click', function () {
