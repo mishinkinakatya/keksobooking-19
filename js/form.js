@@ -1,14 +1,13 @@
 'use strict';
 // настройка полей в форме для создания объявления
 (function () {
-
   var form = {
-    price: window.map.adForm.querySelector('#price'),
-    type: window.map.adForm.querySelector('#type'),
-    timein: window.map.adForm.querySelector('#timein'),
-    timeout: window.map.adForm.querySelector('#timeout'),
-    roomNumber: window.map.adForm.querySelector('#room_number'),
-    capacity: window.map.adForm.querySelector('#capacity'),
+    price: window.data.adForm.querySelector('#price'),
+    type: window.data.adForm.querySelector('#type'),
+    timein: window.data.adForm.querySelector('#timein'),
+    timeout: window.data.adForm.querySelector('#timeout'),
+    roomNumber: window.data.adForm.querySelector('#room_number'),
+    capacity: window.data.adForm.querySelector('#capacity'),
   };
 
   // настройка зависимости между типом жилья и его минимальной ценой
@@ -50,7 +49,7 @@
   });
 
   // настройка зависимости между количеством комнат и количеством гостей
-  window.map.adForm.addEventListener('change', function (evt) {
+  window.data.adForm.addEventListener('change', function (evt) {
     evt.preventDefault();
     if (form.roomNumber.value === '1' && form.capacity.value !== '1') {
       form.roomNumber.setCustomValidity('В одной комнате может проживать только 1 человек');
@@ -64,4 +63,5 @@
       form.roomNumber.setCustomValidity('');
     }
   });
+
 })();
