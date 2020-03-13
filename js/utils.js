@@ -41,7 +41,7 @@
     document.removeEventListener('keydown', successEscPressHandler);
     document.removeEventListener('keydown', errorEscPressHandler);
     successWindow.removeEventListener('click', successClickHandler);
-    successWindow.removeEventListener('click', errorClickHandler);
+    errorWindow.removeEventListener('click', errorClickHandler);
   };
 
   var getPins = function (advertisements) {
@@ -63,13 +63,14 @@
   var sendHandler = function () {
     renderResult(successWindow);
     resetForm();
-    form.submitButton.textContent = 'Сохранить';
+    form.submitButton.textContent = 'Опубликовать';
     window.backend.load(loadHandler, errorHandler);
   };
 
   // функция, которая срабатывает при ошибке при отправке формы
   var errorHandler = function () {
     renderResult(errorWindow);
+    form.submitButton.textContent = 'Опубликовать';
   };
 
   // функция, которая срабатывает при загрузке данных с сервера
@@ -113,6 +114,6 @@
   document.addEventListener('keydown', successEscPressHandler);
   document.addEventListener('keydown', errorEscPressHandler);
   successWindow.addEventListener('click', successClickHandler);
-  successWindow.addEventListener('click', errorClickHandler);
+  errorWindow.addEventListener('click', errorClickHandler);
 
 })();
