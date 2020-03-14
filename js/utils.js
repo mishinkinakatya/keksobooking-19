@@ -98,8 +98,8 @@
     window.data.map.classList.add('map--faded');
     window.data.adForm.classList.add('ad-form--disabled');
     window.mode.disabledForm();
-    window.data.mainPin.style.left = window.data.MAIN_PIN_START.X + 'px';
-    window.data.mainPin.style.top = window.data.MAIN_PIN_START.Y + 'px';
+    window.data.mainPin.style.left = window.data.MainPinStart.X + 'px';
+    window.data.mainPin.style.top = window.data.MainPinStart.Y + 'px';
     window.mode.showAddress();
     deletePins();
     window.map.closeModal();

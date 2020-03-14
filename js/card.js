@@ -22,19 +22,11 @@
     }
   };
 
-  var displayAccommodationType = function (type) {
-    switch (type) {
-      case 'palace':
-        return 'Дворец';
-      case 'flat':
-        return 'Квартира';
-      case 'house':
-        return 'Дом';
-      case 'bungalo':
-        return 'Бунгало';
-      default:
-        return type;
-    }
+  var englishToRussia = {
+    'palace': 'Дворец',
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalo': 'Бунгало',
   };
 
   window.card = {
@@ -54,7 +46,7 @@
       fillNewAdvertisementTextContent(advertisementItem, '.popup__title', advertisement.offer.title);
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--address', advertisement.offer.address);
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--price', advertisement.offer.price + ' ₽/ночь');
-      fillNewAdvertisementTextContent(advertisementItem, '.popup__type', displayAccommodationType(advertisement.offer.type));
+      fillNewAdvertisementTextContent(advertisementItem, '.popup__type', englishToRussia[advertisement.offer.type]);
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
 

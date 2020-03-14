@@ -10,26 +10,18 @@
     capacity: window.data.adForm.querySelector('#capacity'),
   };
 
+  var roomToPrice = {
+    'palace': '10000',
+    'flat': '1000',
+    'house': '5000',
+    'bungalo': '6780',
+  };
+
   // настройка зависимости между типом жилья и его минимальной ценой
   var setMinPrice = function () {
-    switch (form.type.value) {
-      case 'bungalo':
-        form.price.setAttribute('min', '0');
-        form.price.setAttribute('placeholder', '0');
-        break;
-      case 'flat':
-        form.price.setAttribute('min', '1000');
-        form.price.setAttribute('placeholder', '1000');
-        break;
-      case 'house':
-        form.price.setAttribute('min', '5000');
-        form.price.setAttribute('placeholder', '5000');
-        break;
-      case 'palace':
-        form.price.setAttribute('min', '10000');
-        form.price.setAttribute('placeholder', '10000');
-        break;
-    }
+    form.price.setAttribute('min', roomToPrice[form.type.value]);
+    form.price.setAttribute('placeholder', roomToPrice[form.type.value]);
+
     return form.price;
   };
 

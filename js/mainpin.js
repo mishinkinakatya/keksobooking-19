@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var MAP_SIZE = {
+  var MapSize = {
     MIN_X: -32,
     MAX_X: 1168,
     MIN_Y: 130,
@@ -18,8 +18,8 @@
 
   var calculatePinCoords = function (xCoord, yCoord) {
     var mainPinCoords = {
-      x: limitMove(xCoord, MAP_SIZE.MIN_X, MAP_SIZE.MAX_X),
-      y: limitMove(yCoord, MAP_SIZE.MIN_Y, MAP_SIZE.MAX_Y),
+      x: limitMove(xCoord, MapSize.MIN_X, MapSize.MAX_X),
+      y: limitMove(yCoord, MapSize.MIN_Y, MapSize.MAX_Y),
     };
 
     window.data.mainPin.style.left = mainPinCoords.x + 'px';

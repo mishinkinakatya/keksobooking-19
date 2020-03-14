@@ -8,13 +8,13 @@
     adForm: document.querySelector('.ad-form'),
     mapFilters: document.querySelector('.map__filters'),
 
-    MAIN_PIN_SIZE: {
+    MainPinSize: {
       WIDTH: 65,
       HEIGHT: 65,
       POINTER_HEIGHT: 22,
     },
 
-    MAIN_PIN_START: {
+    MainPinStart: {
       X: 570,
       Y: 375,
     },

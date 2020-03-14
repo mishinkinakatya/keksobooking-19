@@ -27,12 +27,12 @@
       window.data.activeModeMap = true;
     },
     showAddress: function () {
-      var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + window.data.MAIN_PIN_SIZE.WIDTH / 2);
+      var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + window.data.MainPinSize.WIDTH / 2);
       var pinCoordsY;
       if (window.data.activeModeMap) {
-        pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MAIN_PIN_SIZE.HEIGHT + window.data.MAIN_PIN_SIZE.POINTER_HEIGHT);
+        pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT + window.data.MainPinSize.POINTER_HEIGHT);
       } else {
-        pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MAIN_PIN_SIZE.HEIGHT);
+        pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT);
       }
       address.value = pinCoordsX + ', ' + pinCoordsY;
     },
