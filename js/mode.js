@@ -22,8 +22,7 @@
       tuneDisabled(fieldsetadForm, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
-
-      window.data.mapPins.appendChild(window.pin.fragment);
+      window.filter.updatePins();
       window.data.activeModeMap = true;
     },
     showAddress: function () {

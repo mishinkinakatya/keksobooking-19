@@ -1,7 +1,6 @@
 'use strict';
 // настройка полей в форме для создания объявления
 (function () {
-  var ADVERTISEMENT_COUNT = 5;
 
   var form = {
     submitButton: window.data.adForm.querySelector('.ad-form__submit'),
@@ -46,28 +45,12 @@
     errorWindow.removeEventListener('click', errorClickHandler);
   };
 
-  var getPins = function (advertisements) {
-    var takeNumber = advertisements.length > ADVERTISEMENT_COUNT ? ADVERTISEMENT_COUNT : advertisements.length;
-    for (var j = 0; j < takeNumber; j++) {
-      if (advertisements[j].offer) {
-        window.pin.fragment.appendChild(window.pin.renderPin((advertisements[j])));
-      }
-    }
-  };
-
-  var deletePins = function () {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < pins.length; i++) {
-      window.data.mapPins.removeChild(pins[i]);
-    }
-  };
-
   // функция, которая срабатывает при успешной отправке формы
   var sendHandler = function () {
     renderResult(successWindow);
     resetForm();
     form.submitButton.textContent = 'Опубликовать';
-    window.backend.load(loadHandler, errorHandler);
+    window.backend.load(window.filter.loadHandler, errorHandler);
   };
 
   // функция, которая срабатывает при ошибке при отправке формы
@@ -78,12 +61,7 @@
     errorWindow.addEventListener('click', errorClickHandler);
   };
 
-  // функция, которая срабатывает при загрузке данных с сервера
-  var loadHandler = function (pins) {
-    getPins(pins);
-  };
-
-  window.backend.load(loadHandler, errorHandler);
+  window.backend.load(window.filter.loadHandler, errorHandler);
 
   // обработчик событий на кнопку Отправить
   window.data.adForm.addEventListener('submit', function (evt) {
@@ -104,7 +82,7 @@
     window.data.mainPin.style.left = window.data.MainPinStart.X + 'px';
     window.data.mainPin.style.top = window.data.MainPinStart.Y + 'px';
     window.mode.showAddress();
-    deletePins();
+    window.pin.deletePins();
     window.map.closeModal();
     window.data.activeModeMap = false;
     window.data.adForm.reset();
@@ -117,7 +95,7 @@
 
   form.resetButton.addEventListener('click', function () {
     resetForm();
-    window.backend.load(loadHandler, errorHandler);
+    window.backend.load(window.filter.loadHandler, errorHandler);
   });
 
   document.addEventListener('keydown', successEscPressHandler);

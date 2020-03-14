@@ -21,7 +21,6 @@
   window.map = {
     closeModal: function () {
       if (mapCardPopup) {
-        // window.data.map.removeChild(mapCardPopup);
         mapCardPopup.remove();
       }
       if (activePinItem) {
