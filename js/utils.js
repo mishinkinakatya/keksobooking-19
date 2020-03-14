@@ -1,6 +1,8 @@
 'use strict';
 // настройка полей в форме для создания объявления
 (function () {
+  var ADVERTISEMENT_COUNT = 5;
+
   var form = {
     submitButton: window.data.adForm.querySelector('.ad-form__submit'),
     resetButton: window.data.adForm.querySelector('.ad-form__reset'),
@@ -45,7 +47,8 @@
   };
 
   var getPins = function (advertisements) {
-    for (var j = 0; j < advertisements.length; j++) {
+    var takeNumber = advertisements.length > ADVERTISEMENT_COUNT ? ADVERTISEMENT_COUNT : advertisements.length;
+    for (var j = 0; j < takeNumber; j++) {
       if (advertisements[j].offer) {
         window.pin.fragment.appendChild(window.pin.renderPin((advertisements[j])));
       }
