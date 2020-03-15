@@ -47,7 +47,11 @@
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--address', advertisement.offer.address);
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--price', advertisement.offer.price + ' ₽/ночь');
       fillNewAdvertisementTextContent(advertisementItem, '.popup__type', englishToRussia[advertisement.offer.type]);
-      fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
+      if (advertisement.offer.rooms === 1) {
+        fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комната для ' + advertisement.offer.guests + ' гостей');
+      } else {
+        fillNewAdvertisementTextContent(advertisementItem, '.popup__text--capacity', advertisement.offer.rooms + ' комнаты для ' + advertisement.offer.guests + ' гостей');
+      }
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
 
       for (var f = 0; f < advertisement.offer.features.length; f++) {
