@@ -50,23 +50,13 @@
     renderResult(successWindow);
     resetForm();
     form.submitButton.textContent = 'Опубликовать';
-    window.backend.load(window.filter.loadHandler, errorHandler);
+    window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
   };
-
-  // функция, которая срабатывает при ошибке при отправке формы
-  var errorHandler = function () {
-    renderResult(errorWindow);
-    form.submitButton.textContent = 'Опубликовать';
-    document.addEventListener('keydown', errorEscPressHandler);
-    errorWindow.addEventListener('click', errorClickHandler);
-  };
-
-  window.backend.load(window.filter.loadHandler, errorHandler);
 
   // обработчик событий на кнопку Отправить
   window.data.adForm.addEventListener('submit', function (evt) {
     form.submitButton.textContent = 'Данные отправляются...';
-    window.backend.save(new FormData(window.data.adForm), sendHandler, errorHandler);
+    window.backend.save(new FormData(window.data.adForm), sendHandler, window.utils.errorHandler);
     evt.preventDefault();
   });
 
@@ -95,12 +85,28 @@
 
   form.resetButton.addEventListener('click', function () {
     resetForm();
-    window.backend.load(window.filter.loadHandler, errorHandler);
+    window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
   });
 
   document.addEventListener('keydown', successEscPressHandler);
   document.addEventListener('keydown', errorEscPressHandler);
   successWindow.addEventListener('click', successClickHandler);
   errorWindow.addEventListener('click', errorClickHandler);
+
+  window.utils = {
+    loadHandler: function (data) {
+      window.data.pins = data;
+      var pins = window.filter.filterPins(data);
+      window.pin.renderPins(pins);
+    },
+
+    // функция, которая срабатывает при ошибке при отправке формы
+    errorHandler: function () {
+      renderResult(errorWindow);
+      form.submitButton.textContent = 'Опубликовать';
+      document.addEventListener('keydown', errorEscPressHandler);
+      errorWindow.addEventListener('click', errorClickHandler);
+    },
+  };
 
 })();

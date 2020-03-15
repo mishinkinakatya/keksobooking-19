@@ -39,7 +39,7 @@
         window.data.mapPins.removeChild(newPins[i]);
       }
     },
-    getPins: function (advertisements) {
+    renderPins: function (advertisements) {
       var takeNumber = advertisements.length > ADVERTISEMENT_COUNT ? ADVERTISEMENT_COUNT : advertisements.length;
       window.pin.deletePins();
       for (var j = 0; j < takeNumber; j++) {

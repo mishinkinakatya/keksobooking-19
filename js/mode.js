@@ -22,7 +22,7 @@
       tuneDisabled(fieldsetadForm, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
-      window.filter.updatePins();
+      window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
       window.data.activeModeMap = true;
     },
     showAddress: function () {
