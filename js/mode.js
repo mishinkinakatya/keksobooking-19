@@ -24,9 +24,9 @@
       tuneDisabled(mapFiltersFieldset, false);
       window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
       window.data.activeModeMap = true;
-      window.data.mapFilters.addEventListener('change', function () {
+      window.data.mapFilters.addEventListener('change', window.debounce(function () {
         window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
-      });
+      }));
     },
     showAddress: function () {
       var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + window.data.MainPinSize.WIDTH / 2);

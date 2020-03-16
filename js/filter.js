@@ -49,7 +49,6 @@
       features: housingFeatures.value,
     };
     return pins.filter(function (item) {
-      window.map.closeModal();
       if (params.type !== 'any' && item.offer.type !== params.type) {
         return false;
       }
