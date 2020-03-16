@@ -17,13 +17,14 @@
   window.mode = {
     // переключение в активный режим
     activateForm: function () {
+      window.data.activeModeMap = true;
+      window.mode.showAddress();
       window.data.map.classList.remove('map--faded');
       window.data.adForm.classList.remove('ad-form--disabled');
       tuneDisabled(fieldsetadForm, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
       window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
-      window.data.activeModeMap = true;
       window.data.mapFilters.addEventListener('change', window.debounce(function () {
         window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
       }));

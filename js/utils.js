@@ -50,11 +50,10 @@
     renderResult(successWindow);
     resetForm();
     form.submitButton.textContent = 'Опубликовать';
-    window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
   };
 
   // обработчик событий на кнопку Отправить
-  window.data.adForm.addEventListener('submit', function (evt) {
+  form.submitButton.addEventListener('submit', function (evt) {
     form.submitButton.textContent = 'Данные отправляются...';
     window.backend.save(new FormData(window.data.adForm), sendHandler, window.utils.errorHandler);
     evt.preventDefault();
@@ -85,7 +84,6 @@
 
   form.resetButton.addEventListener('click', function () {
     resetForm();
-    window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
   });
 
   document.addEventListener('keydown', successEscPressHandler);
@@ -97,6 +95,7 @@
     loadHandler: function (data) {
       window.data.pins = data;
       var pins = window.filter.filterPins(data);
+      window.map.closeModal();
       window.pin.renderPins(pins);
     },
 
