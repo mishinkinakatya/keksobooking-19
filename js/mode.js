@@ -4,7 +4,7 @@
   var fieldsetadForm = window.data.adForm.querySelectorAll('fieldset');
   var mapFiltersSelect = window.data.mapFilters.querySelectorAll('select');
   var mapFiltersFieldset = window.data.mapFilters.querySelectorAll('fieldset');
-  var address = window.data.adForm.querySelector('#address');
+  // var address = window.data.adForm.querySelector('#address');
 
   // Функция для переключения страницы между активным и неактивным состояниями
   var tuneDisabled = function (target, mode) {
@@ -14,30 +14,27 @@
     return target;
   };
 
+  var loadPins = function (data) {
+    window.data.pins = data;
+    var pins = window.filter.filterPins(data);
+    window.map.closeModal();
+    window.pin.renderPins(pins);
+  };
+
   window.mode = {
     // переключение в активный режим
     activateForm: function () {
       window.data.activeModeMap = true;
-      window.mode.showAddress();
+      window.showAddress();
       window.data.map.classList.remove('map--faded');
       window.data.adForm.classList.remove('ad-form--disabled');
       tuneDisabled(fieldsetadForm, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
-      window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
+      window.backend.load(loadPins, window.errorHandler);
       window.data.mapFilters.addEventListener('change', window.debounce(function () {
-        window.backend.load(window.utils.loadHandler, window.utils.errorHandler);
+        window.backend.load(loadPins, window.errorHandler);
       }));
-    },
-    showAddress: function () {
-      var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + window.data.MainPinSize.WIDTH / 2);
-      var pinCoordsY;
-      if (window.data.activeModeMap) {
-        pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT + window.data.MainPinSize.POINTER_HEIGHT);
-      } else {
-        pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT);
-      }
-      address.value = pinCoordsX + ', ' + pinCoordsY;
     },
     // переключение в НЕактивный режим
     disabledForm: function () {
@@ -48,6 +45,4 @@
   };
 
   window.mode.disabledForm();
-
-  window.mode.showAddress();
 })();

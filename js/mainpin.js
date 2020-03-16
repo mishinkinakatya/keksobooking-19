@@ -24,7 +24,7 @@
 
     window.data.mainPin.style.left = mainPinCoords.x + 'px';
     window.data.mainPin.style.top = mainPinCoords.y + 'px';
-    window.mode.showAddress();
+    window.showAddress();
   };
 
   window.data.mainPin.addEventListener('keydown', function (evt) {

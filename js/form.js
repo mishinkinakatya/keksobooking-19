@@ -2,6 +2,7 @@
 // настройка полей в форме для создания объявления
 (function () {
   var form = {
+    address: window.data.adForm.querySelector('#address'),
     price: window.data.adForm.querySelector('#price'),
     type: window.data.adForm.querySelector('#type'),
     timein: window.data.adForm.querySelector('#timein'),
@@ -55,5 +56,17 @@
       form.roomNumber.setCustomValidity('');
     }
   });
+
+  window.showAddress = function () {
+    var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + window.data.MainPinSize.WIDTH / 2);
+    var pinCoordsY;
+    if (window.data.activeModeMap) {
+      pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT + window.data.MainPinSize.POINTER_HEIGHT);
+    } else {
+      pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT);
+    }
+    form.address.value = pinCoordsX + ', ' + pinCoordsY;
+  };
+  window.showAddress();
 
 })();

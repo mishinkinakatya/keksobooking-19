@@ -17,6 +17,13 @@
     closeButton = mapCardPopup.querySelector('.popup__close');
   };
 
+  var popupEscPressHandler = function (evt) {
+    if (evt.key === 'Escape') {
+      statusModal = false;
+      window.map.closeModal(mapCardPopup);
+    }
+  };
+
   // открытие модального окна с объявлением
   window.map = {
     closeModal: function () {
@@ -45,13 +52,5 @@
         window.map.closeModal();
       });
     },
-  };
-
-  // обработчик на клавишу Esc
-  var popupEscPressHandler = function (evt) {
-    if (evt.key === 'Escape') {
-      statusModal = false;
-      window.map.closeModal(mapCardPopup);
-    }
   };
 })();
