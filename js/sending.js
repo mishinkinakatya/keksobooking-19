@@ -1,5 +1,4 @@
 'use strict';
-// настройка полей в форме для создания объявления
 (function () {
 
   var form = {
@@ -49,7 +48,7 @@
   };
 
   var closeResult = function (result) {
-    window.data.main.removeChild(result);
+    result.remove();
     document.removeEventListener('keydown', successEscPressHandler);
     document.removeEventListener('keydown', errorEscPressHandler);
     successWindow.removeEventListener('click', successClickHandler);
@@ -87,7 +86,6 @@
     resetForm();
   });
 
-  // функция, которая срабатывает при ошибке при отправке формы
   window.errorRequest = function () {
     renderResult(errorWindow);
     form.submitButton.textContent = 'Опубликовать';

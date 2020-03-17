@@ -1,5 +1,4 @@
 'use strict';
-// настройка полей в форме для создания объявления
 (function () {
   var form = {
     address: window.data.adForm.querySelector('#address'),
@@ -24,7 +23,6 @@
     POINTER_HEIGHT: 22,
   };
 
-  // настройка зависимости между типом жилья и его минимальной ценой
   var setMinPrice = function () {
     form.price.setAttribute('min', roomToPrice[form.type.value]);
     form.price.setAttribute('placeholder', roomToPrice[form.type.value]);
@@ -39,7 +37,6 @@
     setMinPrice();
   });
 
-  // настройка зависимости между временем заселения и временем выселения
   form.timein.addEventListener('change', function () {
     form.timeout.value = form.timein.value;
   });
@@ -47,7 +44,6 @@
     form.timein.value = form.timeout.value;
   });
 
-  // настройка зависимости между количеством комнат и количеством гостей
   window.data.adForm.addEventListener('change', function (evt) {
     evt.preventDefault();
     if (form.roomNumber.value === '1' && form.capacity.value !== '1') {

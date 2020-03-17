@@ -1,6 +1,4 @@
 'use strict';
-// функция для отрисовки меток
-// координаты меток
 (function () {
   var ADVERTISEMENT_COUNT = 5;
 
@@ -11,7 +9,6 @@
     pinHalfWidth: newPin.offsetWidth / 2,
   };
 
-  // функция для отрисовки метки
   var renderPin = function (pin) {
     var pinItem = newPin.cloneNode(true);
     pinItem.style.left = (pin.location.x - pinSize.pinHalfWidth) + 'px';

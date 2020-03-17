@@ -1,13 +1,10 @@
 'use strict';
-// отрисовка меток
-// отображение модального окна с объявлением при нажатии на метку
 (function () {
   var mapCardPopup;
   var closeButton;
   var activePinItem;
   var statusModal;
 
-  // открытие карточки
   var openModal = function (modal) {
     var currentModal = window.card.renderAdvertisement(modal);
     window.card.fragmentaccommodation.appendChild(currentModal);
@@ -23,7 +20,6 @@
     }
   };
 
-  // открытие модального окна с объявлением
   window.modal = {
     closeModal: function () {
       if (mapCardPopup) {

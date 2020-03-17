@@ -1,10 +1,7 @@
 'use strict';
-// получаем массив с объявлениями
-// функция для отрисовки модального окна
 (function () {
   var newAdvertisement = document.querySelector('#card').content.querySelector('.map__card.popup');
 
-  // функция для добавления textContent в DOM-элементе
   var fillNewAdvertisementTextContent = function (item, selector, value) {
     if (value !== '') {
       item.querySelector(selector).textContent = value;
@@ -13,7 +10,6 @@
     }
   };
 
-  // функция для добавления setAttribute в DOM-элементе
   var fillNewAdvertisementSetAttribute = function (item, selector, attribute, value) {
     if (value !== '') {
       item.querySelector(selector).setAttribute(attribute, value);
@@ -30,9 +26,7 @@
   };
 
   window.card = {
-    // фрагмент с карточкой объявления
     fragmentaccommodation: document.createDocumentFragment(),
-    // функция для отрисовки карточки (модального окна)
     renderAdvertisement: function (advertisement) {
       var advertisementItem = newAdvertisement.cloneNode(true);
       var allFeatures = advertisementItem.querySelector('.popup__features');

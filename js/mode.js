@@ -5,7 +5,6 @@
   var mapFiltersSelect = window.data.mapFilters.querySelectorAll('select');
   var mapFiltersFieldset = window.data.mapFilters.querySelectorAll('fieldset');
 
-  // Функция для переключения страницы между активным и неактивным состояниями
   var tuneDisabled = function (target, mode) {
     for (var d = 0; d < target.length; d++) {
       target[d].disabled = mode;
@@ -21,7 +20,6 @@
   };
 
   window.mode = {
-    // переключение в активный режим
     activateForm: function () {
       window.data.activeModeMap = true;
       window.showAddress();
@@ -35,7 +33,7 @@
         window.backend.load(loadRequest, window.errorRequest);
       }));
     },
-    // переключение в НЕактивный режим
+
     disabledForm: function () {
       tuneDisabled(fieldsetadForm, true);
       tuneDisabled(mapFiltersSelect, true);
