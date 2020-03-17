@@ -12,48 +12,55 @@
 
   var successEscPressHandler = function (evt) {
     if (evt.key === 'Escape') {
-      closeResult(successWindow);
+      closeSuccessModal();
     }
   };
 
   var errorEscPressHandler = function (evt) {
     if (evt.key === 'Escape') {
-      closeResult(errorWindow);
+      closeErrorModal();
     }
   };
 
   var successClickHandler = function () {
-    closeResult(successWindow);
+    closeSuccessModal();
   };
 
   var errorClickHandler = function () {
-    closeResult(errorWindow);
+    closeErrorModal();
   };
 
-  // функция, которая срабатывает при успешной отправке формы
-  var sendRequest = function () {
-    renderResult(successWindow);
-    resetForm();
-    form.submitButton.textContent = 'Опубликовать';
-  };
-
-  var renderResult = function (resultWindow) {
-    var fragment = document.createDocumentFragment();
-    fragment.appendChild(resultWindow);
-    window.data.main.appendChild(fragment);
-    document.addEventListener('keydown', successEscPressHandler);
-    document.addEventListener('keydown', errorEscPressHandler);
-    successWindow.addEventListener('click', successClickHandler);
+  var openErrorModal = function () {
+    window.data.main.appendChild(errorWindow);
     errorWindow.addEventListener('click', errorClickHandler);
+    document.addEventListener('keydown', errorEscPressHandler);
+    errorButton.addEventListener('click', errorClickHandler);
   };
 
-  var closeResult = function (result) {
-    result.remove();
-    document.removeEventListener('keydown', successEscPressHandler);
-    document.removeEventListener('keydown', errorEscPressHandler);
-    successWindow.removeEventListener('click', successClickHandler);
+  var closeErrorModal = function () {
+    errorWindow.remove();
     errorWindow.removeEventListener('click', errorClickHandler);
+    document.removeEventListener('keydown', errorEscPressHandler);
+    errorButton.removeEventListener('click', errorClickHandler);
   };
+
+  var openSuccessModal = function () {
+    window.data.main.appendChild(successWindow);
+    successWindow.addEventListener('click', successClickHandler);
+    document.addEventListener('keydown', successEscPressHandler);
+  };
+
+  var closeSuccessModal = function () {
+    successWindow.remove();
+    successWindow.removeEventListener('click', errorClickHandler);
+    document.removeEventListener('keydown', errorEscPressHandler);
+  };
+
+  window.data.adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    form.submitButton.textContent = 'Данные отправляются...';
+    window.backend.save(new FormData(window.data.adForm), sendRequest, window.errorRequest);
+  });
 
   var resetForm = function () {
     window.data.activeModeMap = false;
@@ -67,30 +74,21 @@
     window.showAddress();
     window.pin.deletePins();
     window.modal.closeModal();
-
-    document.addEventListener('keydown', successEscPressHandler);
-    successWindow.addEventListener('click', successClickHandler);
   };
-
-  window.data.adForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    form.submitButton.textContent = 'Данные отправляются...';
-    window.backend.save(new FormData(window.data.adForm), sendRequest, window.errorRequest);
-  });
-
-  errorButton.addEventListener('click', function () {
-    closeResult(errorWindow);
-  });
 
   form.resetButton.addEventListener('click', function () {
     resetForm();
   });
 
-  window.errorRequest = function () {
-    renderResult(errorWindow);
+  var sendRequest = function () {
+    openSuccessModal();
+    resetForm();
     form.submitButton.textContent = 'Опубликовать';
-    document.addEventListener('keydown', errorEscPressHandler);
-    errorWindow.addEventListener('click', errorClickHandler);
+  };
+
+  window.errorRequest = function () {
+    openErrorModal();
+    form.submitButton.textContent = 'Опубликовать';
   };
 
 })();
