@@ -30,9 +30,9 @@
     renderAdvertisement: function (advertisement) {
       var advertisementItem = newAdvertisement.cloneNode(true);
       var allFeatures = advertisementItem.querySelector('.popup__features');
-      var features = advertisementItem.querySelector('.popup__feature').cloneNode(true);
+      var feature = advertisementItem.querySelector('.popup__feature').cloneNode(true);
       var allPhotos = advertisementItem.querySelector('.popup__photos');
-      var photos = advertisementItem.querySelector('.popup__photo').cloneNode(true);
+      var photo = advertisementItem.querySelector('.popup__photo').cloneNode(true);
 
       allFeatures.innerHTML = '';
       allPhotos.innerHTML = '';
@@ -46,7 +46,7 @@
       fillNewAdvertisementTextContent(advertisementItem, '.popup__text--time', 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout);
 
       for (var i = 0; i < advertisement.offer.features.length; i++) {
-        var featureItem = features.cloneNode(true);
+        var featureItem = feature.cloneNode(true);
         featureItem.classList = 'popup__feature popup__feature--' + advertisement.offer.features[i];
         allFeatures.appendChild(featureItem);
       }
@@ -54,7 +54,7 @@
       fillNewAdvertisementTextContent(advertisementItem, '.popup__description', advertisement.offer.description);
 
       for (var j = 0; j < advertisement.offer.photos.length; j++) {
-        var photoItem = photos.cloneNode(true);
+        var photoItem = photo.cloneNode(true);
         photoItem.setAttribute('src', advertisement.offer.photos[j]);
         allPhotos.appendChild(photoItem);
       }

@@ -1,7 +1,7 @@
 'use strict';
 (function () {
 
-  var fieldsetadForm = window.data.adForm.querySelectorAll('fieldset');
+  var adFormFieldset = window.data.adForm.querySelectorAll('fieldset');
   var mapFiltersSelect = window.data.mapFilters.querySelectorAll('select');
   var mapFiltersFieldset = window.data.mapFilters.querySelectorAll('fieldset');
 
@@ -15,8 +15,8 @@
   var loadRequest = function (data) {
     window.data.pins = data;
     var pins = window.filter.filterPins(data);
-    window.modal.closeModal();
-    window.pin.renderPins(pins);
+    window.modal.close();
+    window.pin.render(pins);
   };
 
   window.mode = {
@@ -25,7 +25,7 @@
       window.showAddress();
       window.data.map.classList.remove('map--faded');
       window.data.adForm.classList.remove('ad-form--disabled');
-      tuneDisabled(fieldsetadForm, false);
+      tuneDisabled(adFormFieldset, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
 
@@ -37,7 +37,7 @@
     },
 
     disabledForm: function () {
-      tuneDisabled(fieldsetadForm, true);
+      tuneDisabled(adFormFieldset, true);
       tuneDisabled(mapFiltersSelect, true);
       tuneDisabled(mapFiltersFieldset, true);
     },

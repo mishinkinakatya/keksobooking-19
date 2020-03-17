@@ -72,8 +72,8 @@
     window.data.mainPin.style.top = window.data.MainPinStart.Y + 'px';
     window.mode.disabledForm();
     window.showAddress();
-    window.pin.deletePins();
-    window.modal.closeModal();
+    window.pin.delete();
+    window.modal.close();
   };
 
   form.resetButton.addEventListener('click', function () {

@@ -17,12 +17,12 @@
     pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
 
     pinItem.addEventListener('click', function () {
-      window.modal.renderModal(pin, pinItem);
+      window.modal.render(pin, pinItem);
     });
 
     pinItem.addEventListener('keydown', function (evt) {
       if (evt.key === 'Enter') {
-        window.modal.renderModal(pin, pinItem);
+        window.modal.render(pin, pinItem);
       }
     });
 
@@ -30,15 +30,15 @@
   };
 
   window.pin = {
-    deletePins: function () {
+    delete: function () {
       var newPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var i = 0; i < newPins.length; i++) {
-        window.data.mapPins.removeChild(newPins[i]);
+        newPins[i].remove();
       }
     },
-    renderPins: function (advertisements) {
+    render: function (advertisements) {
       var takeNumber = advertisements.length > ADVERTISEMENT_COUNT ? ADVERTISEMENT_COUNT : advertisements.length;
-      window.pin.deletePins();
+      window.pin.delete();
       for (var j = 0; j < takeNumber; j++) {
         if (advertisements[j].offer) {
           window.data.mapPins.appendChild(renderPin((advertisements[j])));

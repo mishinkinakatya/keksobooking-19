@@ -4,7 +4,7 @@
   var URL_DATA = 'https://js.dump.academy/keksobooking/data';
   var TIMEOUT_IN_MS = 10000;
   var StatusCode = {
-    OK: 200
+    OK: 200,
   };
 
   var makeRequest = function (onLoad, onError, xhr) {
