@@ -1,5 +1,12 @@
 'use strict';
 (function () {
+
+  var MainPinSize = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    POINTER_HEIGHT: 22,
+  };
+
   var form = {
     address: window.data.adForm.querySelector('#address'),
     price: window.data.adForm.querySelector('#price'),
@@ -15,12 +22,6 @@
     'flat': '1000',
     'house': '5000',
     'bungalo': '0',
-  };
-
-  var MainPinSize = {
-    WIDTH: 65,
-    HEIGHT: 65,
-    POINTER_HEIGHT: 22,
   };
 
   var setMinPrice = function () {

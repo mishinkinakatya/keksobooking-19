@@ -2,6 +2,11 @@
 
 (function () {
 
+  var Price = {
+    SMALL: 10000,
+    BIG: 50000,
+  };
+
   var housingType = window.data.mapFilters.querySelector('#housing-type');
   var housingPrice = window.data.mapFilters.querySelector('#housing-price');
   var housingRooms = window.data.mapFilters.querySelector('#housing-rooms');
@@ -11,11 +16,11 @@
   var filterPrice = function (price, itemPrice) {
     switch (price) {
       case 'low':
-        return itemPrice < 10000;
+        return itemPrice < Price.SMALL;
       case 'middle':
-        return itemPrice >= 10000 && itemPrice < 50000;
+        return itemPrice >= Price.SMALL && itemPrice < Price.BIG;
       case 'high':
-        return itemPrice >= 50000;
+        return itemPrice >= Price.BIG;
       default:
         return true;
     }

@@ -6,8 +6,8 @@
   var mapFiltersFieldset = window.data.mapFilters.querySelectorAll('fieldset');
 
   var tuneDisabled = function (target, mode) {
-    for (var d = 0; d < target.length; d++) {
-      target[d].disabled = mode;
+    for (var i = 0; i < target.length; i++) {
+      target[i].disabled = mode;
     }
     return target;
   };
@@ -28,7 +28,9 @@
       tuneDisabled(fieldsetadForm, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
+
       window.backend.load(loadRequest, window.errorRequest);
+
       window.data.mapFilters.addEventListener('change', window.debounce(function () {
         window.backend.load(loadRequest, window.errorRequest);
       }));
