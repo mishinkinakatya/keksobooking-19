@@ -18,6 +18,12 @@
     'bungalo': '0',
   };
 
+  var MainPinSize = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    POINTER_HEIGHT: 22,
+  };
+
   // настройка зависимости между типом жилья и его минимальной ценой
   var setMinPrice = function () {
     form.price.setAttribute('min', roomToPrice[form.type.value]);
@@ -58,12 +64,12 @@
   });
 
   window.showAddress = function () {
-    var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + window.data.MainPinSize.WIDTH / 2);
+    var pinCoordsX = Math.floor(window.data.mainPin.offsetLeft + MainPinSize.WIDTH / 2);
     var pinCoordsY;
     if (window.data.activeModeMap) {
-      pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT + window.data.MainPinSize.POINTER_HEIGHT);
+      pinCoordsY = Math.floor(window.data.mainPin.offsetTop + MainPinSize.HEIGHT + MainPinSize.POINTER_HEIGHT);
     } else {
-      pinCoordsY = Math.floor(window.data.mainPin.offsetTop + window.data.MainPinSize.HEIGHT);
+      pinCoordsY = Math.floor(window.data.mainPin.offsetTop + MainPinSize.HEIGHT);
     }
     form.address.value = pinCoordsX + ', ' + pinCoordsY;
   };

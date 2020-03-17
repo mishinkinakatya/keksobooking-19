@@ -32,7 +32,7 @@
   };
 
   // функция, которая срабатывает при успешной отправке формы
-  var sendHandler = function () {
+  var sendRequest = function () {
     renderResult(successWindow);
     resetForm();
     form.submitButton.textContent = 'Опубликовать';
@@ -57,18 +57,17 @@
   };
 
   var resetForm = function () {
+    window.data.activeModeMap = false;
     window.data.map.classList.add('map--faded');
     window.data.adForm.classList.add('ad-form--disabled');
-    window.mode.disabledForm();
-    window.data.mainPin.style.left = window.data.MainPinStart.X + 'px';
-    window.data.mainPin.style.top = window.data.MainPinStart.Y + 'px';
-    window.showAddress();
-    window.pin.deletePins();
-    window.map.closeModal();
-    window.data.activeModeMap = false;
     window.data.adForm.reset();
     window.data.mapFilters.reset();
+    window.data.mainPin.style.left = window.data.MainPinStart.X + 'px';
+    window.data.mainPin.style.top = window.data.MainPinStart.Y + 'px';
+    window.mode.disabledForm();
     window.showAddress();
+    window.pin.deletePins();
+    window.modal.closeModal();
 
     document.addEventListener('keydown', successEscPressHandler);
     successWindow.addEventListener('click', successClickHandler);
@@ -77,7 +76,7 @@
   window.data.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     form.submitButton.textContent = 'Данные отправляются...';
-    window.backend.save(new FormData(window.data.adForm), sendHandler, window.errorHandler);
+    window.backend.save(new FormData(window.data.adForm), sendRequest, window.errorRequest);
   });
 
   errorButton.addEventListener('click', function () {
@@ -89,7 +88,7 @@
   });
 
   // функция, которая срабатывает при ошибке при отправке формы
-  window.errorHandler = function () {
+  window.errorRequest = function () {
     renderResult(errorWindow);
     form.submitButton.textContent = 'Опубликовать';
     document.addEventListener('keydown', errorEscPressHandler);

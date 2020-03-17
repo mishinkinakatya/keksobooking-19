@@ -9,12 +9,6 @@
     mapFilters: document.querySelector('.map__filters'),
     pins: [],
 
-    MainPinSize: {
-      WIDTH: 65,
-      HEIGHT: 65,
-      POINTER_HEIGHT: 22,
-    },
-
     MainPinStart: {
       X: 570,
       Y: 375,

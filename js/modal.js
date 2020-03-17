@@ -1,5 +1,4 @@
 'use strict';
-// переключение страницы между активным и неактивным режимами
 // отрисовка меток
 // отображение модального окна с объявлением при нажатии на метку
 (function () {
@@ -20,12 +19,12 @@
   var popupEscPressHandler = function (evt) {
     if (evt.key === 'Escape') {
       statusModal = false;
-      window.map.closeModal(mapCardPopup);
+      window.modal.closeModal(mapCardPopup);
     }
   };
 
   // открытие модального окна с объявлением
-  window.map = {
+  window.modal = {
     closeModal: function () {
       if (mapCardPopup) {
         mapCardPopup.remove();
@@ -35,12 +34,13 @@
       }
       document.removeEventListener('keydown', popupEscPressHandler);
     },
-    displayModal: function (modal, item) {
+
+    renderModal: function (modal, item) {
       if (activePinItem) {
         activePinItem.classList.remove('map__pin--active');
       }
       if (statusModal) {
-        window.map.closeModal();
+        window.modal.closeModal();
       }
       openModal(modal);
       statusModal = true;
@@ -49,7 +49,7 @@
       document.addEventListener('keydown', popupEscPressHandler);
       closeButton.addEventListener('click', function () {
         statusModal = false;
-        window.map.closeModal();
+        window.modal.closeModal();
       });
     },
   };

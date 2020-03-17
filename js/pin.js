@@ -20,12 +20,12 @@
     pinItem.querySelector('img').setAttribute('alt', 'Заголовок объявления');
 
     pinItem.addEventListener('click', function () {
-      window.map.displayModal(pin, pinItem);
+      window.modal.renderModal(pin, pinItem);
     });
 
     pinItem.addEventListener('keydown', function (evt) {
       if (evt.key === 'Enter') {
-        window.map.displayModal(pin, pinItem);
+        window.modal.renderModal(pin, pinItem);
       }
     });
 

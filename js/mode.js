@@ -4,7 +4,6 @@
   var fieldsetadForm = window.data.adForm.querySelectorAll('fieldset');
   var mapFiltersSelect = window.data.mapFilters.querySelectorAll('select');
   var mapFiltersFieldset = window.data.mapFilters.querySelectorAll('fieldset');
-  // var address = window.data.adForm.querySelector('#address');
 
   // Функция для переключения страницы между активным и неактивным состояниями
   var tuneDisabled = function (target, mode) {
@@ -14,10 +13,10 @@
     return target;
   };
 
-  var loadPins = function (data) {
+  var loadRequest = function (data) {
     window.data.pins = data;
     var pins = window.filter.filterPins(data);
-    window.map.closeModal();
+    window.modal.closeModal();
     window.pin.renderPins(pins);
   };
 
@@ -31,9 +30,9 @@
       tuneDisabled(fieldsetadForm, false);
       tuneDisabled(mapFiltersSelect, false);
       tuneDisabled(mapFiltersFieldset, false);
-      window.backend.load(loadPins, window.errorHandler);
+      window.backend.load(loadRequest, window.errorRequest);
       window.data.mapFilters.addEventListener('change', window.debounce(function () {
-        window.backend.load(loadPins, window.errorHandler);
+        window.backend.load(loadRequest, window.errorRequest);
       }));
     },
     // переключение в НЕактивный режим
