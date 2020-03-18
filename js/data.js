@@ -14,6 +14,12 @@
       Y: 375,
     },
 
+    MainPinSize: {
+      WIDTH: 65,
+      HEIGHT: 65,
+      HEIGHT_WITH_POINTER: 87,
+    },
+
     activeModeMap: false,
   };
 })();

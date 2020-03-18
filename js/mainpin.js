@@ -20,7 +20,7 @@
   var calculatePinCoords = function (xCoord, yCoord) {
     var mainPinCoords = {
       x: limitMove(xCoord, MapSize.MIN_X, MapSize.MAX_X),
-      y: limitMove(yCoord, MapSize.MIN_Y, MapSize.MAX_Y),
+      y: limitMove(yCoord, MapSize.MIN_Y - window.data.MainPinSize.HEIGHT_WITH_POINTER, MapSize.MAX_Y - window.data.MainPinSize.HEIGHT_WITH_POINTER),
     };
 
     window.data.mainPin.style.left = mainPinCoords.x + 'px';
