@@ -32,9 +32,9 @@
   window.pin = {
     delete: function () {
       var newPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      for (var i = 0; i < newPins.length; i++) {
-        newPins[i].remove();
-      }
+      newPins.forEach(function (pinItem) {
+        pinItem.remove();
+      });
     },
     render: function (advertisements) {
       var takeNumber = advertisements.length > ADVERTISEMENT_COUNT ? ADVERTISEMENT_COUNT : advertisements.length;

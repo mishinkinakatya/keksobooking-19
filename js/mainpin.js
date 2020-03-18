@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var MOUSE_BUTTON_CODE = 0;
   var MapSize = {
     MIN_X: -32,
     MAX_X: 1168,
@@ -36,7 +37,7 @@
   var xCoord;
   var yCoord;
   window.data.mainPin.addEventListener('mousedown', function (evt) {
-    if (!window.data.activeModeMap && evt.which.toString() === '1') {
+    if (!window.data.activeModeMap && evt.button === MOUSE_BUTTON_CODE) {
       window.mode.activateForm();
 
       xCoord = parseInt(window.data.mainPin.style.left, 10);

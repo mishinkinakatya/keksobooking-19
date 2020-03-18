@@ -6,10 +6,9 @@
   var mapFiltersFieldsets = window.data.mapFilters.querySelectorAll('fieldset');
 
   var tuneDisabled = function (target, mode) {
-    for (var i = 0; i < target.length; i++) {
-      target[i].disabled = mode;
-    }
-    return target;
+    target.forEach(function (targetItem) {
+      targetItem.disabled = mode;
+    });
   };
 
   var loadRequest = function (data) {

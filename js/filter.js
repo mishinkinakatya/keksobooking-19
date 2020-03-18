@@ -28,11 +28,11 @@
 
   var getCheckedFeatures = function () {
     var checkedFeatures = [];
-    for (var i = 0; i < housingFeatures.length; i++) {
-      if (housingFeatures[i].checked) {
-        checkedFeatures.push(housingFeatures[i].value);
+    housingFeatures.forEach(function (feature) {
+      if (feature.checked) {
+        checkedFeatures.push(feature.value);
       }
-    }
+    });
     return checkedFeatures;
   };
 
