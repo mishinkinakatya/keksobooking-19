@@ -26,14 +26,14 @@
     }
   };
 
-  var checkedFeatures = function () {
-    var checkedFeature = [];
+  var getCheckedFeatures = function () {
+    var checkedFeatures = [];
     for (var i = 0; i < housingFeatures.length; i++) {
       if (housingFeatures[i].checked) {
-        checkedFeature.push(housingFeatures[i].value);
+        checkedFeatures.push(housingFeatures[i].value);
       }
     }
-    return checkedFeature;
+    return checkedFeatures;
   };
 
   var filterFeatures = function (features, itemFeatures) {
@@ -66,7 +66,7 @@
       if (params.guests !== 'any' && item.offer.guests.toString() !== params.guests) {
         return false;
       }
-      if (!filterFeatures(checkedFeatures(), item.offer.features)) {
+      if (!filterFeatures(getCheckedFeatures(), item.offer.features)) {
         return false;
       }
       return true;

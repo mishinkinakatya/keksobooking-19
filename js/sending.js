@@ -70,7 +70,7 @@
     window.data.mapFilters.reset();
     window.data.mainPin.style.left = window.data.MainPinStart.X + 'px';
     window.data.mainPin.style.top = window.data.MainPinStart.Y + 'px';
-    window.mode.disabledForm();
+    window.mode.disableForm();
     window.showAddress();
     window.pin.delete();
     window.modal.close();
