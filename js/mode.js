@@ -12,8 +12,10 @@
   };
 
   var loadRequest = function (data) {
-    window.data.pins = data;
-    var pins = window.filter.filterPins(data);
+    var notEmptyPins = data.filter(function (item) {
+      return !!item.offer;
+    });
+    var pins = window.filter.filterPins(notEmptyPins);
     window.modal.close();
     window.pin.render(pins);
   };
