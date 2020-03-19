@@ -12,28 +12,28 @@
   };
 
   var loadRequest = function (data) {
-    var notEmptyPins = data.filter(function (item) {
+    window.data.pins = data.filter(function (item) {
       return !!item.offer;
     });
-    var pins = window.filter.filterPins(notEmptyPins);
-    window.modal.close();
-    window.pin.render(pins);
+    window.pin.render(window.data.pins);
+    tuneDisabled(mapFiltersSelects, false);
+    tuneDisabled(mapFiltersFieldsets, false);
   };
 
   window.mode = {
     activateForm: function () {
+      window.backend.load(loadRequest, window.errorRequest);
+
       window.data.activeModeMap = true;
       window.showAddress();
       window.data.map.classList.remove('map--faded');
       window.data.adForm.classList.remove('ad-form--disabled');
       tuneDisabled(adFormFieldsets, false);
-      tuneDisabled(mapFiltersSelects, false);
-      tuneDisabled(mapFiltersFieldsets, false);
-
-      window.backend.load(loadRequest, window.errorRequest);
 
       window.data.mapFilters.addEventListener('change', window.debounce(function () {
-        window.backend.load(loadRequest, window.errorRequest);
+        var pinsFilter = window.filter.filterPins(window.data.pins);
+        window.modal.close();
+        window.pin.render(pinsFilter);
       }));
     },
 

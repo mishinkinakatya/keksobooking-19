@@ -7,6 +7,7 @@
     main: document.querySelector('main'),
     adForm: document.querySelector('.ad-form'),
     mapFilters: document.querySelector('.map__filters'),
+    pins: [],
 
     MainPinStart: {
       X: 570,
