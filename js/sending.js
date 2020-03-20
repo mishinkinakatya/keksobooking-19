@@ -74,6 +74,7 @@
     window.showAddress();
     window.pin.delete();
     window.modal.close();
+    window.resetImage();
   };
 
   form.resetButton.addEventListener('click', function () {
